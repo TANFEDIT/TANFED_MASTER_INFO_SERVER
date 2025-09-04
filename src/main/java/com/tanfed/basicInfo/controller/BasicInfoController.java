@@ -95,20 +95,24 @@ public class BasicInfoController {
 
 	@GetMapping("/officedataheader")
 	public OfficeHeader getOfficeHeader(@RequestHeader("Authorization") String jwt) throws Exception {
-		fetchUserHandler = userService.fetchUserHandler(jwt);
-		User user = fetchUserHandler.getBody();
-		logger.info("controller{}", user.getOfficeName());
-		OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
-		TaxInfo taxInfo = taxInfoRepo.findById(1l).get();
-		if (officeInfo == null && taxInfo == null) {
+		try {
+			fetchUserHandler = userService.fetchUserHandler(jwt);
+			User user = fetchUserHandler.getBody();
+			logger.info("controller{}", user.getOfficeName());
+			OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
+			TaxInfo taxInfo = taxInfoRepo.findById(1l).get();
+			if (officeInfo == null && taxInfo == null) {
+				return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
+						user.getOfficeName(), null, null, null, null, null, null, null, user.getImgName(),
+						user.getImgType(), user.getImgData());
+			}
 			return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
-					user.getOfficeName(), null, null, null, null, null, null, null, user.getImgName(),
-					user.getImgType(), user.getImgData());
+					user.getOfficeName(), officeInfo.getOfficeType(), officeInfo.getDoor(), officeInfo.getStreet(),
+					officeInfo.getDistrict(), officeInfo.getPincode(), taxInfo.getGstNo(), taxInfo.getTanNo(),
+					user.getImgName(), user.getImgType(), user.getImgData());			
+		} catch (Exception e) {
+			throw new Exception(e);
 		}
-		return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
-				user.getOfficeName(), officeInfo.getOfficeType(), officeInfo.getDoor(), officeInfo.getStreet(),
-				officeInfo.getDistrict(), officeInfo.getPincode(), taxInfo.getGstNo(), taxInfo.getTanNo(),
-				user.getImgName(), user.getImgType(), user.getImgData());
 	}
 
 	@GetMapping("/fetchdataforofficeform")
