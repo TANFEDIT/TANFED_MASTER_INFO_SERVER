@@ -12,7 +12,7 @@ import com.tanfed.basicInfo.model.User;
 
 
 
-@FeignClient(name = "USER-SERVICE", url = "http://localhost:8081")
+@FeignClient(name = "USER-SERVICE")
 public interface UserService {
 	
 	@GetMapping("/auth/getofficelist")
