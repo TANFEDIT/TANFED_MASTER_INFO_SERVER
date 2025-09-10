@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class ApplicationConfig {
 
 	private static final String[] AUTH_WHITELIST = { "/api/v1/auth/**", "/v3/api-docs/**", "/v3/api-docs.yaml",
-			"/swagger-ui/**", "/swagger-ui.html" };
+			"/swagger-ui/**", "/swagger-ui.html", "/actuator/**"};
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
