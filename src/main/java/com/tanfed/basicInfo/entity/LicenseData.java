@@ -29,9 +29,6 @@ public class LicenseData {
 	private List<String> empId;
 	
 	@Column
-	private LocalDate date;
-	
-	@Column
 	private String officeName;
 	
 	@Column

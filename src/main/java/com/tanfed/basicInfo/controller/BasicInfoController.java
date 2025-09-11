@@ -99,17 +99,23 @@ public class BasicInfoController {
 			fetchUserHandler = userService.fetchUserHandler(jwt);
 			User user = fetchUserHandler.getBody();
 			logger.info("controller{}", user.getOfficeName());
-//			OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
-//			TaxInfo taxInfo = taxInfoRepo.findById(1l).get();
-//			if (officeInfo == null && taxInfo == null) {
+			OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
+			TaxInfo taxInfo = taxInfoRepo.findById(1l).orElse(null);
+			if (officeInfo == null && taxInfo == null) {
 				return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
 						user.getOfficeName(), null, null, null, null, null, null, null, user.getImgName(),
 						user.getImgType(), user.getImgData());
-//			}
-//			return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
-//					user.getOfficeName(), officeInfo.getOfficeType(), officeInfo.getDoor(), officeInfo.getStreet(),
-//					officeInfo.getDistrict(), officeInfo.getPincode(), taxInfo.getGstNo(), taxInfo.getTanNo(),
-//					user.getImgName(), user.getImgType(), user.getImgData());			
+			} else if (officeInfo != null && taxInfo == null) {
+				return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
+						user.getOfficeName(), officeInfo.getOfficeType(), officeInfo.getDoor(), officeInfo.getStreet(),
+						officeInfo.getDistrict(), officeInfo.getPincode(), null, null, user.getImgName(), user.getImgType(),
+						user.getImgData());
+			} else {
+				return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
+						user.getOfficeName(), officeInfo.getOfficeType(), officeInfo.getDoor(), officeInfo.getStreet(),
+						officeInfo.getDistrict(), officeInfo.getPincode(), taxInfo.getGstNo(), taxInfo.getTanNo(),
+						user.getImgName(), user.getImgType(), user.getImgData());
+			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
