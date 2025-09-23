@@ -53,7 +53,7 @@ public class ContractorInfo {
 	@Column
 	private Integer pincode;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "contractor")
 	private List<ContractorTenderData> tenderData;
 	
 	
@@ -62,7 +62,7 @@ public class ContractorInfo {
 	
 	
 //	EMD Entry
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "contractor")
 	private List<ContractorGstData> gstData;
 	
 	@Column
@@ -86,7 +86,7 @@ public class ContractorInfo {
 	@Column
 	private List<String> godownName;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "contractor")
 	private List<ContractorChargesData> chargesData;
 	
 	
@@ -114,7 +114,7 @@ public class ContractorInfo {
 	private String status = "Active";
 	
 // additional godown
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "contractor")
 	private List<ReassignedGodown> additionalGodownData;
 	
 }

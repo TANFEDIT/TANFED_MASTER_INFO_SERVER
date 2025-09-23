@@ -2,12 +2,16 @@ package com.tanfed.basicInfo.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tanfed.basicInfo.entity.ContractorInfo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,4 +35,9 @@ public class ReassignedGodown {
 	
 	@Column
 	private String contractorName;
+
+	@ManyToOne
+	@JoinColumn(name = "contractor")
+	@JsonIgnore
+	private ContractorInfo contractor;
 }

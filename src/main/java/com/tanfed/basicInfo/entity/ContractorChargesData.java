@@ -2,6 +2,8 @@ package com.tanfed.basicInfo.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -74,4 +76,10 @@ public class ContractorChargesData {
 	
 	@Column
 	private Double abovetwohundredone;
+	
+
+	@ManyToOne
+	@JoinColumn(name = "contractor")
+	@JsonIgnore
+	private ContractorInfo contractor;
 }

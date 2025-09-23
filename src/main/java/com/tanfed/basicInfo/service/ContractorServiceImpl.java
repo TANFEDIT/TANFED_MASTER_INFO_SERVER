@@ -42,7 +42,7 @@ public class ContractorServiceImpl implements ContractorService {
 		try {
 			ContractorTenderData tanderData = new ContractorTenderData(null, obj.getContractApproval(),
 					obj.getHoIrRcno(), obj.getApprovalPeriod(), obj.getValidityFrom(), obj.getValidityTo(),
-					obj.getHoLetterDate());
+					obj.getHoLetterDate(), null);
 
 			List<ContractorTenderData> tenderDataList = new ArrayList<ContractorTenderData>();
 			tenderDataList.add(tanderData);
@@ -218,7 +218,7 @@ public class ContractorServiceImpl implements ContractorService {
 					obj.getHillRate(), obj.getZero_seven(), obj.getEight_twenty(), obj.getTwentyone_fifty(),
 					obj.getFiftyone_seventyfive(), obj.getSeventysix_hundred(), obj.getHundredone_onetwentyfive(),
 					obj.getOnetwosix_onefifty(), obj.getOnefiftyone_oneseventyfive(), obj.getOneseventysix_twohundred(),
-					obj.getAbovetwohundredone());
+					obj.getAbovetwohundredone(), null);
 			contractorInfo.setChargesData(new ArrayList<>(Arrays.asList(charges)));
 
 			contractorInfoRepo.save(contractorInfo);
@@ -394,7 +394,7 @@ public class ContractorServiceImpl implements ContractorService {
 		try {
 			ContractorInfo contractorInfo = getContractorInfoByContractFirm(obj.getOfficeName(), obj.getContractFirm());
 			contractorInfo.getAdditionalGodownData().add(new ReassignedGodown(null, obj.getGodownAddedList(),
-					obj.getRateDefinedAs(), obj.getBlockedContractor()));
+					obj.getRateDefinedAs(), obj.getBlockedContractor(), null));
 			contractorInfoRepo.save(contractorInfo);
 			return new ResponseEntity<String>("Refund Updated Successfully", HttpStatus.ACCEPTED);
 		} catch (Exception e) {
