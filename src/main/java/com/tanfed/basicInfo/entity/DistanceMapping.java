@@ -32,7 +32,7 @@ public class DistanceMapping {
 	
 	private String category;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "dist_mapping")
 	private List<DistanceMapTableData> tableData;
 	
 	

@@ -500,7 +500,7 @@ public class ContractorServiceImpl implements ContractorService {
 		if (!godownName.isEmpty() && godownName != null) {
 			List<DistanceMapTableData> godownData = godownInfoService.getGodownInfoByOfficeName(officeName).stream()
 					.filter(item -> !godownName.equals(item.getGodownName())).map(item -> new DistanceMapTableData(null,
-							item.getIfmsId(), item.getGodownName(), null, null, null))
+							item.getIfmsId(), item.getGodownName(), null, null, null, null))
 					.collect(Collectors.toList());
 
 			if (!byOfficeNameAndGodownName.isEmpty()) {
@@ -543,7 +543,7 @@ public class ContractorServiceImpl implements ContractorService {
 		if (!district.isEmpty() && district != null) {
 			List<DistanceMapTableData> buyerData = buyerFirmService.getBuyerInfoByOfficeName(officeName).stream()
 					.filter(item -> item.getDistrict().equals(district)).map(item -> new DistanceMapTableData(null,
-							item.getIfmsIdNo(), item.getNameOfInstitution(), null, null, null))
+							item.getIfmsIdNo(), item.getNameOfInstitution(), null, null, null, null))
 					.collect(Collectors.toList());
 
 			if (!byOfficeNameAndGodownName.isEmpty()) {
