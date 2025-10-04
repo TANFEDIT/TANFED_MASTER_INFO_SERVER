@@ -1,5 +1,6 @@
 package com.tanfed.basicInfo.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tanfed.basicInfo.model.DistanceMapTableData;
@@ -33,15 +34,6 @@ public class DistanceMapping {
 	private String category;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "dist_mapping")
-	private List<DistanceMapTableData> tableData;
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	private List<DistanceMapTableData> tableData = new ArrayList<DistanceMapTableData>();
 	
 }

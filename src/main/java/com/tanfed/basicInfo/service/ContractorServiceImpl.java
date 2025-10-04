@@ -26,6 +26,8 @@ import com.tanfed.basicInfo.model.*;
 import com.tanfed.basicInfo.repository.*;
 import com.tanfed.basicInfo.response.*;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ContractorServiceImpl implements ContractorService {
 
@@ -509,8 +511,7 @@ public class ContractorServiceImpl implements ContractorService {
 
 				data.setIdNo(distanceMapping.getId());
 
-				List<DistanceMapTableData> distanceData = distanceMapping.getTableData().stream()
-						.collect(Collectors.toList());
+				List<DistanceMapTableData> distanceData = distanceMapping.getTableData();
 
 				if (distanceData.size() == godownData.size()) {
 					data.setTableData(distanceData);
@@ -591,16 +592,22 @@ public class ContractorServiceImpl implements ContractorService {
 	@Autowired
 	private DistanceMappingRepo distanceMappingRepo;
 
+	@Transactional
 	@Override
 	public ResponseEntity<String> saveDistanceMapData(DistanceMapping obj, String idNo) throws Exception {
 		try {
-			logger.info("obj {}", obj);
-			logger.info("idNo {}", idNo);
+			logger.info("idNo{}", idNo);
 			if (Long.valueOf(idNo) != 0L) {
 				DistanceMapping distanceMapping = distanceMappingRepo.findById(Long.valueOf(idNo)).get();
+				obj.getTableData().forEach(item -> {
+					item.setDist_mapping(distanceMapping);
+				});
 				distanceMapping.setTableData(obj.getTableData());
-				distanceMappingRepo.save(distanceMapping);
+//				distanceMappingRepo.save(distanceMapping);
 			} else {
+				obj.getTableData().forEach(item -> {
+					item.setDist_mapping(obj);
+				});
 				distanceMappingRepo.save(obj);
 			}
 			return new ResponseEntity<>("Contractor Info Created", HttpStatus.CREATED);
