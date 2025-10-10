@@ -136,8 +136,8 @@ public class InventryController {
 				gstCategory, gstRate, productName);
 	}
 
-	@GetMapping("/fetchmasterfilterdata/{formType}")
-	public InventryFilterData getInventryFilterDataHandler(@PathVariable String formType) throws Exception {
+	@GetMapping("/fetchmasterfilterdata")
+	public InventryFilterData getInventryFilterDataHandler(@RequestParam String formType) throws Exception {
 		InventryFilterData data = new InventryFilterData();
 		switch (formType) {
 		case "productConfig": {
