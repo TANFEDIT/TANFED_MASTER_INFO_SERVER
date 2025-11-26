@@ -98,9 +98,9 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 		try {
 			List<SupplierInfo> supplierInfobyOfficeName = supplierRepo.findAll();
 
-			if (supplierInfobyOfficeName == null) {
-				throw new FileNotFoundException("No data found");
-			}
+			// if (supplierInfobyOfficeName == null) {
+			// 	throw new FileNotFoundException("No data found");
+			// }
 			return supplierInfobyOfficeName.stream().filter(item -> item.getSupplierOf().contains(activity))
 					.map(SupplierInfo::getSupplierName).collect(Collectors.toList());
 		} catch (Exception e) {
