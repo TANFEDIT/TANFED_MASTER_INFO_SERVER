@@ -37,7 +37,7 @@ public class ReassignedGodown {
 	private String contractorName;
 
 	@ManyToOne
-	@JoinColumn(name = "contractor")
+	@JoinColumn(name = "contractor_id")
 	@JsonIgnore
 	private ContractorInfo contractor;
 }

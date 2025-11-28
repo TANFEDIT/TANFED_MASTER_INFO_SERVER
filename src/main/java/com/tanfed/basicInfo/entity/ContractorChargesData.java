@@ -79,7 +79,7 @@ public class ContractorChargesData {
 	
 
 	@ManyToOne
-	@JoinColumn(name = "contractor")
+	@JoinColumn(name = "contractor_id")
 	@JsonIgnore
 	private ContractorInfo contractor;
 }

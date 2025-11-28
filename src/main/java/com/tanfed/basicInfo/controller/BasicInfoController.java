@@ -98,28 +98,28 @@ public class BasicInfoController {
 		try {
 			fetchUserHandler = userService.fetchUserHandler(jwt);
 			User user = fetchUserHandler.getBody();
-			logger.info("controller{}", user.getOfficeName());
-			OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
-			TaxInfo taxInfo = taxInfoRepo.findById(1l).orElse(null);
-			if (officeInfo == null && taxInfo == null) {
-				return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
-						user.getOfficeName(), null, null, null, null, null, null, null, user.getImgName(),
-						user.getImgType(), user.getImgData());
-			} else if (officeInfo != null && taxInfo == null) {
-				return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
-						user.getOfficeName(), officeInfo.getOfficeType(), officeInfo.getDoor(), officeInfo.getStreet(),
-						officeInfo.getDistrict(), officeInfo.getPincode(), null, null, user.getImgName(), user.getImgType(),
-						user.getImgData());
-			} else {
-				return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(),
-						user.getOfficeName(), officeInfo.getOfficeType(), officeInfo.getDoor(), officeInfo.getStreet(),
-						officeInfo.getDistrict(), officeInfo.getPincode(), taxInfo.getGstNo(), taxInfo.getTanNo(),
-						user.getImgName(), user.getImgType(), user.getImgData());
+			if (user == null) {
+				return null;
 			}
+			OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
+			TaxInfo taxInfo = taxInfoRepo.findById(1L).orElse(null);
+
+			String officeType = officeInfo != null ? officeInfo.getOfficeType() : null;
+			String door = officeInfo != null ? officeInfo.getDoor() : null;
+			String street = officeInfo != null ? officeInfo.getStreet() : null;
+			String district = officeInfo != null ? officeInfo.getDistrict() : null;
+			Integer pincode = officeInfo != null ? officeInfo.getPincode() : null;
+			String gstNo = taxInfo != null ? taxInfo.getGstNo() : null;
+			String tanNo = taxInfo != null ? taxInfo.getTanNo() : null;
+			
+			return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(), user.getOfficeName(), officeType,
+					door, street, district, pincode, gstNo, tanNo, user.getImgName(), user.getImgType(), user.getImgData()
+			);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
 	}
+
 
 	@GetMapping("/fetchdataforofficeform")
 	public DataForOfficeForm getDataForOfficeFormHandler(@RequestParam String officeType) throws Exception {
@@ -499,11 +499,12 @@ public class BasicInfoController {
 		return contractorService.saveDistanceMapData(obj, idNo);
 	}
 
-//	@PutMapping("/updateexistingdistance")
-//	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_FERTADMIN')")
-//	public ResponseEntity<String> saveExistingDistanceMapDataHandler(@RequestBody DistanceMapping obj) throws Exception {
-//		return contractorService.saveExistingDistanceMapData(obj);
-//	}
+	// @PutMapping("/updateexistingdistance")
+	// @PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_FERTADMIN')")
+	// public ResponseEntity<String> saveExistingDistanceMapDataHandler(@RequestBody
+	// DistanceMapping obj) throws Exception {
+	// return contractorService.saveExistingDistanceMapData(obj);
+	// }
 
 	@GetMapping("/fetchdistancemappeddata")
 	public List<DistanceMappingAbstractTable> getDistanceMappingAbstractTableDataHandler(@RequestParam String region)
