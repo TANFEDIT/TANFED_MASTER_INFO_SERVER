@@ -44,7 +44,7 @@ public class ContractorGstData {
 	private Double igstRate;
 
 	@ManyToOne
-	@JoinColumn(name = "contractor_id")
+	@JoinColumn(name = "id")
 	@JsonIgnore
 	private ContractorInfo contractor;
 }
