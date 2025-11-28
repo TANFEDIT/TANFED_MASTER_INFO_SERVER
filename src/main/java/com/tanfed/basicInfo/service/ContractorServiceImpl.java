@@ -46,12 +46,8 @@ public class ContractorServiceImpl implements ContractorService {
 					obj.getHoIrRcno(), obj.getApprovalPeriod(), obj.getValidityFrom(), obj.getValidityTo(),
 					obj.getHoLetterDate(), null);
 
-			List<ContractorTenderData> tenderDataList = new ArrayList<ContractorTenderData>();
-			tenderDataList.add(tanderData);
-
 			ContractorInfo data = new ContractorInfo();
 			if (obj.getContractApproval().equals("New")) {
-
 				List<ContractorInfo> byContractFirm = contractorInfoRepo.findByContractFirm(obj.getContractFirm());
 				if (!byContractFirm.isEmpty()) {
 					Stream<ContractorInfo> stream = byContractFirm.stream()
@@ -60,7 +56,6 @@ public class ContractorServiceImpl implements ContractorService {
 						throw new FileAlreadyExistsException("Active contractor already exists!");
 					}
 				}
-
 				String officeCode = userService.getOfficeList().stream().filter(item -> {
 					return item.getOfficeName().equals(obj.getOfficeName());
 				}).map(Office::getOfficeCode).collect(Collectors.toList()).get(0);
@@ -76,8 +71,9 @@ public class ContractorServiceImpl implements ContractorService {
 				data.setStreet(obj.getStreet());
 				data.setDistrict(obj.getDistrict());
 				data.setPincode(obj.getPincode());
-				data.setTenderData(tenderDataList);
 				data.setOfficeCode(officeCode);
+				tanderData.setContractor(data);
+				data.setTenderData(Arrays.asList(tanderData));
 
 				contractorInfoRepo.save(data);
 
@@ -85,6 +81,7 @@ public class ContractorServiceImpl implements ContractorService {
 			} else {
 				logger.info("{}", obj);
 				ContractorInfo contractorInfo = contractorInfoRepo.findById(obj.getId()).get();
+				tanderData.setContractor(contractorInfo);
 				contractorInfo.getTenderData().add(tanderData);
 				contractorInfoRepo.save(contractorInfo);
 				return new ResponseEntity<>("Contractor Extension added", HttpStatus.CREATED);
