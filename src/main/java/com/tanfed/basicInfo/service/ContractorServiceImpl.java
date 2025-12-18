@@ -210,6 +210,9 @@ public class ContractorServiceImpl implements ContractorService {
 			contractorInfo.setAdditionalEmd(obj.getAdditionalEmd());
 			contractorInfo.setGstNo(obj.getGstNo());
 			contractorInfo.setGstReturnType(obj.getGstReturnType());
+			obj.getGstAddedList().forEach(item -> {
+				item.setContractor(contractorInfo);
+			});
 			contractorInfo.setGstData(obj.getGstAddedList());
 			contractorInfo.setGodownName(obj.getGodownAddedList());
 			ContractorChargesData charges = new ContractorChargesData(null, obj.getRateFrom(), obj.getRateTo(),
@@ -217,7 +220,7 @@ public class ContractorServiceImpl implements ContractorService {
 					obj.getHillRate(), obj.getZero_seven(), obj.getEight_twenty(), obj.getTwentyone_fifty(),
 					obj.getFiftyone_seventyfive(), obj.getSeventysix_hundred(), obj.getHundredone_onetwentyfive(),
 					obj.getOnetwosix_onefifty(), obj.getOnefiftyone_oneseventyfive(), obj.getOneseventysix_twohundred(),
-					obj.getAbovetwohundredone(), null);
+					obj.getAbovetwohundredone(), contractorInfo);
 			contractorInfo.setChargesData(new ArrayList<>(Arrays.asList(charges)));
 
 			contractorInfoRepo.save(contractorInfo);
