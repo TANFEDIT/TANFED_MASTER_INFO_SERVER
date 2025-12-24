@@ -84,7 +84,7 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 			supplierInfo.setContact2(obj.getContact2());
 			supplierInfo.setEmail(obj.getEmail());
 			supplierInfo.setWebsite(obj.getWebsite());
-
+			supplierInfo.setSupplierOf(obj.getSupplierOf());
 			supplierRepo.save(supplierInfo);
 
 			return new ResponseEntity<>("Updated Successfully", HttpStatus.ACCEPTED);

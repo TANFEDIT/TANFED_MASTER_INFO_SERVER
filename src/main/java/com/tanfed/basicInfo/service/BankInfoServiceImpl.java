@@ -1,6 +1,7 @@
 package com.tanfed.basicInfo.service;
 
 import java.io.FileNotFoundException;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,9 @@ public class BankInfoServiceImpl implements BankInfoService {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 			obj.setEmpId(Arrays.asList(empId));
+			if (getBankInfoByAccountNo(obj.getAccountNumber()) != null) {
+				throw new FileAlreadyExistsException("Bank Info Already Exists for Acc No" + obj.getAccountNumber());
+			}
 			bankRepo.save(obj);
 			return new ResponseEntity<>("Created successfully", HttpStatus.CREATED);
 		} catch (Exception e) {

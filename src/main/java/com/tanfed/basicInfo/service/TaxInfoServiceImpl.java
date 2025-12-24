@@ -101,4 +101,13 @@ public class TaxInfoServiceImpl implements TaxInfoService {
 		}
 	}
 
+	@Override
+	public String validateCategoryAndRate(String category, Double rate) throws Exception {
+		try {
+			return findGstDataByGstRate(category, rate) == null ? "New Data" : "Data Already Exists";
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
+
 }

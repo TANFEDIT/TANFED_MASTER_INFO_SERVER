@@ -101,6 +101,11 @@ public class AccountsController {
 		return taxInfoService.findGstDataByGstRate(gstCategory, gstRate);
 	}
 
+	@GetMapping("/datavalidate")
+	public String validateCategoryAndRateHandler(@RequestParam String category, Double rate) throws Exception {
+		return taxInfoService.validateCategoryAndRate(category, rate);
+	}
+
 	// Beneficiary Master
 	@Autowired
 	private BeneficiaryMasterService beneficiaryMasterService;

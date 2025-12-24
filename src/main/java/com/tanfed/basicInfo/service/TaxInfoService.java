@@ -18,6 +18,8 @@ public interface TaxInfoService {
 	
 	public Set<String> findCategoryList() throws Exception;
 	
+	public String validateCategoryAndRate(String category, Double rate) throws Exception;
+	
 	public List<Double> findGstRateByCategory(String gstCategory) throws Exception;
 	
 	public GstRateData findGstDataByGstRate(String gstCategory, Double gstRate) throws Exception;
