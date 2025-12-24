@@ -3,6 +3,7 @@ package com.tanfed.basicInfo.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,8 +51,8 @@ public class DistrictService {
 			if (talukByDistrict == null) {
 				throw new Exception("No data found for district" + district);
 			}
-			return new ArrayList<String>(
-					talukByDistrict.stream().map(DistrictTalukTable::getIfmsId).collect(Collectors.toSet()));
+			return new ArrayList<String>(talukByDistrict.stream().map(DistrictTalukTable::getIfmsId)
+					.filter(Objects::nonNull).collect(Collectors.toSet()));
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
