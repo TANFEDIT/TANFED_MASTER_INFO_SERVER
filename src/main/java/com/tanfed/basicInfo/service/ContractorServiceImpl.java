@@ -395,7 +395,7 @@ public class ContractorServiceImpl implements ContractorService {
 		try {
 			ContractorInfo contractorInfo = getContractorInfoByContractFirm(obj.getOfficeName(), obj.getContractFirm());
 			contractorInfo.getAdditionalGodownData().add(new ReassignedGodown(null, obj.getGodownAddedList(),
-					obj.getRateDefinedAs(), obj.getBlockedContractor(), null));
+					obj.getRateDefinedAs(), obj.getBlockedContractor(), contractorInfo));
 			contractorInfoRepo.save(contractorInfo);
 			return new ResponseEntity<String>("Refund Updated Successfully", HttpStatus.ACCEPTED);
 		} catch (Exception e) {
