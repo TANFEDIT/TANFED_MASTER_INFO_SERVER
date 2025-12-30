@@ -361,28 +361,28 @@ public class ContractorServiceImpl implements ContractorService {
 				data.setInactiveContractorList(
 						contarctorInfoByOfficeName.stream().filter(item -> item.getStatus().equals("Inactive"))
 								.map(ContractorInfo::getContractFirm).collect(Collectors.toList()));
-					List<String> godownNameList = godownInfoService.getGodownNameByOfficeName(officeName);
-					
-					Set<String> activeGodownNameList = contarctorInfoByOfficeName.stream()
-							.filter(item -> item.getStatus().equals("Active") && item.getGstNo() != null)
-							.flatMap(item -> item.getGodownName().stream()).collect(Collectors.toSet());
-					
-					activeGodownNameList.addAll(contarctorInfoByOfficeName.stream()
-							.filter(item -> "Active".equals(item.getStatus())).flatMap(item -> {
-								if (item.getAdditionalGodownData() == null)
-									return Stream.empty();
-								return item.getAdditionalGodownData().stream()
-										.flatMap(dataItem -> dataItem.getAdditionalGodown().stream())
-										.filter(Objects::nonNull);
-							}).filter(Objects::nonNull).collect(Collectors.toSet()));
-					
-					activeGodownNameList.forEach(item -> {
-						if (godownNameList.contains(item)) {
-							godownNameList.remove(item);
-						}
-					});
-					
-					data.setGodownList(godownNameList);					
+				List<String> godownNameList = godownInfoService.getGodownNameByOfficeName(officeName);
+
+				Set<String> activeGodownNameList = contarctorInfoByOfficeName.stream()
+						.filter(item -> item.getStatus().equals("Active") && item.getGstNo() != null)
+						.flatMap(item -> item.getGodownName().stream()).collect(Collectors.toSet());
+
+				activeGodownNameList.addAll(contarctorInfoByOfficeName.stream()
+						.filter(item -> "Active".equals(item.getStatus())).flatMap(item -> {
+							if (item.getAdditionalGodownData() == null)
+								return Stream.empty();
+							return item.getAdditionalGodownData().stream()
+									.flatMap(dataItem -> dataItem.getAdditionalGodown().stream())
+									.filter(Objects::nonNull);
+						}).filter(Objects::nonNull).collect(Collectors.toSet()));
+
+				activeGodownNameList.forEach(item -> {
+					if (godownNameList.contains(item)) {
+						godownNameList.remove(item);
+					}
+				});
+
+				data.setGodownList(godownNameList);
 			}
 			return data;
 		} catch (Exception e) {
@@ -394,8 +394,10 @@ public class ContractorServiceImpl implements ContractorService {
 	public ResponseEntity<String> saveContractorStatus(ContractorStatusUpdateDto obj) throws Exception {
 		try {
 			ContractorInfo contractorInfo = getContractorInfoByContractFirm(obj.getOfficeName(), obj.getContractFirm());
+			String contractor = obj.getRateDefinedAs().equals("Same Contractor Rate") ? obj.getContractFirm()
+					: obj.getBlockedContractor();
 			contractorInfo.getAdditionalGodownData().add(new ReassignedGodown(null, obj.getGodownAddedList(),
-					obj.getRateDefinedAs(), obj.getBlockedContractor(), contractorInfo));
+					obj.getRateDefinedAs(), contractor, contractorInfo));
 			contractorInfoRepo.save(contractorInfo);
 			return new ResponseEntity<String>("Refund Updated Successfully", HttpStatus.ACCEPTED);
 		} catch (Exception e) {

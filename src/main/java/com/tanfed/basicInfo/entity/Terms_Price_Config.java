@@ -45,5 +45,8 @@ public class Terms_Price_Config {
 	private String salesCreditPeriod;
 	
 	@Column
+	private String purchaseCreditPeriod;
+	
+	@Column
 	private List<String> empId;
 }

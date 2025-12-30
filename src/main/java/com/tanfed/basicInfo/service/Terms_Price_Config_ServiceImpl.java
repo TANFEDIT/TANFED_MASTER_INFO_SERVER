@@ -96,4 +96,14 @@ public class Terms_Price_Config_ServiceImpl implements Terms_Price_Config_Servic
 		}
 	}
 
+	@Override
+	public List<String> getPurchaseCreditPeriod(String activity) throws Exception {
+		try {
+			return getTerms_Price_ConfigList().stream().filter(item -> item.getActivity().equals(activity))
+					.map(Terms_Price_Config::getPurchaseCreditPeriod).collect(Collectors.toList());
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
+
 }

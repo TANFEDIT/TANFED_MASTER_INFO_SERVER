@@ -10,6 +10,8 @@ import com.tanfed.basicInfo.entity.BuyerFirmInfo;
 public interface BuyerFirmRepo extends JpaRepository<BuyerFirmInfo, Long> {
 
 	public BuyerFirmInfo findByIfmsIdNo(String ifmsIdNo);
+
+	public BuyerFirmInfo findByNameOfInstitution(String nameOfInstitution);
 	
 	public List<BuyerFirmInfo> findByOfficeName(String officeName);
 }

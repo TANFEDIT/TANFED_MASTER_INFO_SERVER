@@ -84,6 +84,11 @@ public class InventryController {
 	public List<String> getSupplyModeHandler(@RequestParam String activity) throws Exception {
 		return terms_Price_Config_Service.getSupplyMode(activity);
 	}
+	
+	@GetMapping("/fetchpcp")
+	public List<String> getPurchaseCreditPeriodHandler(@RequestParam String activity) throws Exception {
+		return terms_Price_Config_Service.getPurchaseCreditPeriod(activity);
+	}
 
 	@GetMapping("/fetchpaymentmode")
 	public List<String> gePaymentModeHandler(@RequestParam String activity) throws Exception {

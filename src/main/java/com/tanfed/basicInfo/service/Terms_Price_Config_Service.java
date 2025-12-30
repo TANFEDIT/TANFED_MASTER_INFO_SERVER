@@ -19,6 +19,8 @@ public interface Terms_Price_Config_Service {
 	public List<String> getSupplyMode(String activity) throws Exception;
 
 	public List<String> gePaymentMode(String activity) throws Exception;
+
+	public List<String> getPurchaseCreditPeriod(String activity) throws Exception;
 	
 	
 }

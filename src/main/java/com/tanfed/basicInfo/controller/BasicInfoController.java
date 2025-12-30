@@ -299,8 +299,8 @@ public class BasicInfoController {
 	}
 
 	@GetMapping("/fetchbuyerfirmdata")
-	public BuyerFirmInfo getBuyerFirmByFirmNameHandler(@RequestParam String ifmsId) throws Exception {
-		return buyerFirmService.getBuyerFirmByFirmName(ifmsId);
+	public BuyerFirmInfo getBuyerFirmByFirmNameHandler(@RequestParam String nameOfInstitution) throws Exception {
+		return buyerFirmService.getBuyerFirmByFirmName(nameOfInstitution);
 	}
 
 	@GetMapping("/fetchbuyerfirmlist")
@@ -316,9 +316,9 @@ public class BasicInfoController {
 		return buyerFirmService.getDataForBuyerFirm(officeName, block, district, bankName);
 	}
 
-	@GetMapping("/fetchbuyerifmsid")
-	public List<String> getBuyerIfmsIdByOfficeNameHandler(@RequestParam String officeName) throws Exception {
-		return buyerFirmService.getBuyerIfmsIdByOfficeName(officeName);
+	@GetMapping("/fetchbuyername")
+	public List<String> getBuyerNameByOfficeNameHandler(@RequestParam String officeName) throws Exception {
+		return buyerFirmService.getBuyerNameByOfficeName(officeName);
 	}
 
 	@GetMapping("/fetchBuyerbyoffice")

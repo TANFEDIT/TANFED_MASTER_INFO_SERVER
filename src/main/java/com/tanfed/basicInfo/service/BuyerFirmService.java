@@ -13,13 +13,13 @@ public interface BuyerFirmService {
 
 	public ResponseEntity<String> saveBuyerFirmInfo(BuyerFirmInfo obj, String jwt) throws Exception;
 	
-	public BuyerFirmInfo getBuyerFirmByFirmName(String ifmsId) throws Exception;
+	public BuyerFirmInfo getBuyerFirmByFirmName(String nameOfInstitution) throws Exception;
 	
 	public BuyerFirmData getBuyerFirmByOfficeName(String officeName, String district, String bankName) throws Exception;
 	
 	public ResponseEntity<String> editBuyerFirm(BuyerFirmInfo obj, String jwt) throws Exception;
 	
-	public List<String> getBuyerIfmsIdByOfficeName(String officeName) throws Exception;
+	public List<String> getBuyerNameByOfficeName(String officeName) throws Exception;
 	
 	public List<BuyerFirmInfo> getBuyerInfoByOfficeName(String officeName) throws Exception;
 

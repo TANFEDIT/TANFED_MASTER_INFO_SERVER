@@ -44,11 +44,11 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 	}
 
 	@Override
-	public BuyerFirmInfo getBuyerFirmByFirmName(String ifmsId) throws Exception {
+	public BuyerFirmInfo getBuyerFirmByFirmName(String nameOfInstitution) throws Exception {
 		try {
-			BuyerFirmInfo byFirmName = buyerFirmRepo.findByIfmsIdNo(ifmsId);
+			BuyerFirmInfo byFirmName = buyerFirmRepo.findByNameOfInstitution(nameOfInstitution);
 			if (byFirmName == null) {
-				throw new FileNotFoundException("No Buyer Info found for IfmsId" + ifmsId);
+				throw new FileNotFoundException("No Buyer Info found for IfmsId" + nameOfInstitution);
 			}
 			return byFirmName;
 		} catch (Exception e) {
@@ -146,14 +146,14 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 	}
 
 	@Override
-	public List<String> getBuyerIfmsIdByOfficeName(String officeName) throws Exception {
+	public List<String> getBuyerNameByOfficeName(String officeName) throws Exception {
 		try {
 			List<BuyerFirmInfo> byOfficeName = buyerFirmRepo.findByOfficeName(officeName);
 
 			if (byOfficeName == null) {
 				throw new FileNotFoundException("No godown Info found for office name" + officeName);
 			}
-			return byOfficeName.stream().map(BuyerFirmInfo::getIfmsIdNo).collect(Collectors.toList());
+			return byOfficeName.stream().map(BuyerFirmInfo::getNameOfInstitution).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
