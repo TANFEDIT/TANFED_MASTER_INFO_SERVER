@@ -169,19 +169,19 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 	}
 
 	@Override
-	public DataForBillsReceivablesOb getDataForBillsReceivablesOb(String firmType, String ifmsId, String officeName)
+	public DataForBillsReceivablesOb getDataForBillsReceivablesOb(String firmType, String nameOfInstitution, String officeName)
 			throws Exception {
 		try {
 			DataForBillsReceivablesOb data = new DataForBillsReceivablesOb();
 			if (officeName != null && !officeName.isEmpty()) {
 				if (firmType != null && !firmType.isEmpty()) {
 					logger.info(officeName);
-					data.setIfmsIdList(getBuyerInfoByOfficeName(officeName).stream()
-							.filter(item -> item.getFirmType().equals(firmType)).map(BuyerFirmInfo::getIfmsIdNo)
+					data.setBuyerNameList(getBuyerInfoByOfficeName(officeName).stream()
+							.filter(item -> item.getFirmType().equals(firmType)).map(BuyerFirmInfo::getNameOfInstitution)
 							.collect(Collectors.toList()));
-					if (ifmsId != null && !ifmsId.isEmpty()) {
-						BuyerFirmInfo buyerFirmInfo = getBuyerFirmByFirmName(ifmsId);
-						data.setNameOfInstitution(buyerFirmInfo.getNameOfInstitution());
+					if (nameOfInstitution != null && !nameOfInstitution.isEmpty()) {
+						BuyerFirmInfo buyerFirmInfo = getBuyerFirmByFirmName(nameOfInstitution);
+						data.setIfmsId(buyerFirmInfo.getIfmsIdNo());
 						data.setAddress(buyerFirmInfo.getAddress());
 						data.setDistrict(buyerFirmInfo.getDistrict());
 						data.setBuyerGstNo(buyerFirmInfo.getBuyerGstNo());

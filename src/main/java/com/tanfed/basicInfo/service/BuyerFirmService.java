@@ -26,6 +26,6 @@ public interface BuyerFirmService {
 	public DataForBuyerFirm getDataForBuyerFirm(String officeName, String block, String district, String bankName)
 			throws Exception;
 
-	public DataForBillsReceivablesOb getDataForBillsReceivablesOb(String firmType, String ifmsId, String officeName)throws Exception;
+	public DataForBillsReceivablesOb getDataForBillsReceivablesOb(String firmType, String nameOfInstitution, String officeName)throws Exception;
 
 }

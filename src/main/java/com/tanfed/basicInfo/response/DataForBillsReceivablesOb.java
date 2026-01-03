@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DataForBillsReceivablesOb {
 
-	private List<String> ifmsIdList;
-	private String nameOfInstitution;
+	private List<String> buyerNameList;
+	private String ifmsId;
 	private String address;
 	private String district;
 	private String buyerGstNo;

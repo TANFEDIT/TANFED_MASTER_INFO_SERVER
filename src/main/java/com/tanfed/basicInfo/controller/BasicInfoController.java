@@ -328,8 +328,8 @@ public class BasicInfoController {
 
 	@GetMapping("/fetchbuyerdataforbills")
 	public DataForBillsReceivablesOb getDataForBillsReceivablesObHandler(@RequestParam String firmType,
-			@RequestParam String ifmsId, @RequestParam String officeName) throws Exception {
-		return buyerFirmService.getDataForBillsReceivablesOb(firmType, ifmsId, officeName);
+			@RequestParam String nameOfInstitution, @RequestParam String officeName) throws Exception {
+		return buyerFirmService.getDataForBillsReceivablesOb(firmType, nameOfInstitution, officeName);
 	}
 
 	/* Department */
