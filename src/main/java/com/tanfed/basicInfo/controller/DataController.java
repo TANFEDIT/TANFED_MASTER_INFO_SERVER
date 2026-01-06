@@ -50,8 +50,8 @@ public class DataController {
 			throws Exception {
 		try {
 			DistrictData response = new DistrictData();
-
-			if (officeName.equals("Head Office") || officeName.equals("Unit Office")) {
+			
+			if (officeName.equals("Head Office") || getOfficeListHandler("Unit Office").contains(officeName)) {
 				response.setDistrictList(getDistrictListHandler().stream().collect(Collectors.toList()));
 			} else {
 				response.setDistrictList(officeInfoService.getOfficeInfoByOfficeName(officeName).getDistrictList());
