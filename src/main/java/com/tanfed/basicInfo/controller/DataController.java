@@ -51,7 +51,7 @@ public class DataController {
 		try {
 			DistrictData response = new DistrictData();
 
-			if (officeName.equals("Head Office")) {
+			if (officeName.equals("Head Office") || officeName.equals("Unit Office")) {
 				response.setDistrictList(getDistrictListHandler().stream().collect(Collectors.toList()));
 			} else {
 				response.setDistrictList(officeInfoService.getOfficeInfoByOfficeName(officeName).getDistrictList());
