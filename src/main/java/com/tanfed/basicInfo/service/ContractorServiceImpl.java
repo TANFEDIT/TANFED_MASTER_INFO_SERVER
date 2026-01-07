@@ -470,12 +470,13 @@ public class ContractorServiceImpl implements ContractorService {
 
 				if (!type.isEmpty() && type.equals("buffer")) {
 					officeName = toRegion;
-					mapBufferData(data, officeName, godownName, byOfficeNameAndGodownName);
+					mapBufferData(data, officeName, godownName, byOfficeNameAndGodownName.stream()
+					.filter(item -> item.getType().equals(type)).collect(Collectors.toList()));
 				}
 				if (!type.isEmpty() && type.equals("district")) {
 					officeName = toRegion;
 					List<DistanceMapping> collect = byOfficeNameAndGodownName.stream()
-							.filter(item -> item.getType().equals("district")).collect(Collectors.toList());
+							.filter(item -> item.getType().equals(type)).collect(Collectors.toList());
 					mapDistrictData(data, officeName, district, collect);
 				}
 			}
