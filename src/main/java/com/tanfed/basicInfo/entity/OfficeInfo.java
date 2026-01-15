@@ -2,7 +2,10 @@ package com.tanfed.basicInfo.entity;
 
 import java.util.List;
 
+import com.tanfed.basicInfo.utils.ListConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -71,15 +74,15 @@ public class OfficeInfo {
 	@Column
 	private String unitOfficeType;
 
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> productionUnit;
 
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> serviceUnit;
 
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> districtList;
 	
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> empId;
 }
