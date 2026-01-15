@@ -11,7 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tanfed.basicInfo.entity.BeneficiaryMaster;
+import com.tanfed.basicInfo.entity.ProductConfig;
+import com.tanfed.basicInfo.entity.ProductMaster;
+import com.tanfed.basicInfo.entity.TaxInfo;
+import com.tanfed.basicInfo.entity.Terms_Price_Config;
 import com.tanfed.basicInfo.model.Office;
+import com.tanfed.basicInfo.repository.BeneficiaryMasterRepo;
+import com.tanfed.basicInfo.repository.ProductConfigRepo;
+import com.tanfed.basicInfo.repository.ProductMasterRepo;
+import com.tanfed.basicInfo.repository.TaxInfoRepo;
+import com.tanfed.basicInfo.repository.Terms_Price_Config_Repo;
 import com.tanfed.basicInfo.response.DistrictData;
 import com.tanfed.basicInfo.service.DistrictService;
 import com.tanfed.basicInfo.service.OfficeInfoService;
@@ -94,4 +104,45 @@ public class DataController {
 		return districtService.getVillageByBlock(block);
 	}
 
+	@Autowired
+	private Terms_Price_Config_Repo terms_Price_Config_Repo;
+	
+	@Autowired
+	private TaxInfoRepo taxInfoRepo;
+	
+	@Autowired
+	private ProductConfigRepo productConfigRepo;
+	
+	@Autowired
+	private ProductMasterRepo productMasterRepo;
+	
+	@Autowired
+	private BeneficiaryMasterRepo beneficiaryMasterRepo;
+	
+	@GetMapping("/gettcconfig")
+	public List<Terms_Price_Config> getTerms_Price_Config() {
+		return terms_Price_Config_Repo.findAll();
+	}
+	
+	@GetMapping("/gettaxinfo")
+	public List<TaxInfo> getTaxInfo() {
+		return taxInfoRepo.findAll();
+	}
+	
+	@GetMapping("/getproductconfig")
+	public List<ProductConfig> getProductConfig() {
+		return productConfigRepo.findAll();
+	}
+	
+	@GetMapping("/getproductMaster")
+	public List<ProductMaster> getproductMaster() {
+		return productMasterRepo.findAll();
+	}
+	
+	@GetMapping("/getbeneficiaryMaster")
+	public List<BeneficiaryMaster> getbeneficiaryMasterRepo() {
+		return beneficiaryMasterRepo.findAll();
+	}
+	
+	
 }
