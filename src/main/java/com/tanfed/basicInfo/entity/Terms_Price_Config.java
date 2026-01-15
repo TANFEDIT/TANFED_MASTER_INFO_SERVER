@@ -3,7 +3,10 @@ package com.tanfed.basicInfo.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.tanfed.basicInfo.utils.ListConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -47,6 +50,6 @@ public class Terms_Price_Config {
 	@Column
 	private String purchaseCreditPeriod;
 	
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> empId;
 }
