@@ -60,6 +60,6 @@ public class BankInfo {
 	
 	private String cif;
 	
-	private List<String> empId;
+//	private List<String> empId;
 
 }

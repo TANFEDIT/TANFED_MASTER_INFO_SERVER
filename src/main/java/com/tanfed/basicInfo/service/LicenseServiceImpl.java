@@ -44,7 +44,7 @@ public class LicenseServiceImpl implements LicenseService {
 					LicenseData licenseData = licenseList.get(i);
 					MultipartFile multipartFile = files[i];
 //					set filedata in entity class
-					licenseData.setEmpId(Arrays.asList(empId));
+//					licenseData.setEmpId(Arrays.asList(empId));
 					licenseData.setFilename(multipartFile.getOriginalFilename());
 					licenseData.setFiletype(multipartFile.getContentType());
 					licenseData.setFiledata(multipartFile.getBytes());
@@ -87,7 +87,7 @@ public class LicenseServiceImpl implements LicenseService {
 			LicenseData license = mapper.readValue(obj, LicenseData.class);
 
 			LicenseData licenseData = licenseRepo.findById(license.getId()).get();
-			licenseData.getEmpId().add(empId);
+//			licenseData.getEmpId().add(empId);
 			licenseData.setLicenseType(license.getLicenseType());
 			licenseData.setLicenseFor(license.getLicenseFor());
 			licenseData.setLicenseNumber(license.getLicenseNumber());

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tanfed.basicInfo.entity.BankInfo;
 import com.tanfed.basicInfo.entity.BeneficiaryMaster;
 import com.tanfed.basicInfo.entity.BuyerFirmInfo;
+import com.tanfed.basicInfo.entity.ContractorInfo;
 import com.tanfed.basicInfo.entity.GodownInfo;
 import com.tanfed.basicInfo.entity.LicenseData;
 import com.tanfed.basicInfo.entity.OfficeInfo;
@@ -26,6 +27,7 @@ import com.tanfed.basicInfo.model.Office;
 import com.tanfed.basicInfo.repository.BankRepo;
 import com.tanfed.basicInfo.repository.BeneficiaryMasterRepo;
 import com.tanfed.basicInfo.repository.BuyerFirmRepo;
+import com.tanfed.basicInfo.repository.ContractorInfoRepo;
 import com.tanfed.basicInfo.repository.GodownRepo;
 import com.tanfed.basicInfo.repository.LicenseRepo;
 import com.tanfed.basicInfo.repository.OfficeInfoRepo;
@@ -148,6 +150,9 @@ public class DataController {
 
 	@Autowired
 	private BuyerFirmRepo buyerFirmRepo;
+	
+	@Autowired
+	private ContractorInfoRepo contractorInfoRepo;
 
 	@GetMapping("/gettcconfig")
 	public List<Terms_Price_Config> getTerms_Price_Config() {
@@ -202,6 +207,11 @@ public class DataController {
 	@GetMapping("/getBuyerFirmInfo")
 	public List<BuyerFirmInfo> getBuyerFirmInfo() {
 		return buyerFirmRepo.findAll();
+	}
+	
+	@GetMapping("/getContractorInfo")
+	public List<ContractorInfo> getContractorInfo() {
+		return contractorInfoRepo.findAll();
 	}
 
 }

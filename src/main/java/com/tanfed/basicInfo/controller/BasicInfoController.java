@@ -376,9 +376,9 @@ public class BasicInfoController {
 		return contractorService.saveContractorInfo(obj, jwt);
 	}
 
-	@PutMapping("/editcontractorinfo")
+	@PostMapping("/editcontractorinfo")
 	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_FERTADMIN')")
-	public ResponseEntity<String> editContractorInfoHandler(@RequestBody ContractorDto obj,
+	public ResponseEntity<String> editContractorInfoHandler(@RequestBody ContractorInfo obj,
 			@RequestHeader("Authorization") String jwt) throws Exception {
 		return contractorService.editContractorInfo(obj, jwt);
 	}

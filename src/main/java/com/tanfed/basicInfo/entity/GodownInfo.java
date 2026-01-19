@@ -85,9 +85,9 @@ public class GodownInfo {
 
 	@Column
 	private Long numberOfGodowns;
-
-	@Column
-	private List<String> capacities;
+//
+//	@Column
+//	private List<String> capacities;
 
 	@Column
 	private String keeperName;
@@ -113,8 +113,8 @@ public class GodownInfo {
 	@Column
 	private LocalDate validityTo;
 	
-	@Column
-	private List<String> empId;
+//	@Column
+//	private List<String> empId;
 	
 
 }

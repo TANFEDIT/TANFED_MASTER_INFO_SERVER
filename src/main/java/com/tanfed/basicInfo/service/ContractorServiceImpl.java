@@ -119,20 +119,33 @@ public class ContractorServiceImpl implements ContractorService {
 	}
 
 	@Override
-	public ResponseEntity<String> editContractorInfo(ContractorDto obj, String jwt) throws Exception {
+	public ResponseEntity<String> editContractorInfo(ContractorInfo obj, String jwt) throws Exception {
 		try {
 
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 
-			ContractorInfo data = contractorInfoRepo.findById(obj.getId()).get();
-
-			data.getEmpId().add(empId);
-			data.setDoor(obj.getDoor());
-			data.setStreet(obj.getStreet());
-			data.setDistrict(obj.getDistrict());
-			data.setPincode(obj.getPincode());
-
-			contractorInfoRepo.save(data);
+//			ContractorInfo data = contractorInfoRepo.findById(obj.getId()).get();
+//
+			obj.getEmpId().add(empId);
+//			data.setDoor(obj.getDoor());
+//			data.setStreet(obj.getStreet());
+//			data.setDistrict(obj.getDistrict());
+//			data.setPincode(obj.getPincode());
+//			data.setGodownName(obj.getGodownName());
+//			data.setAdditionalGodownData(obj.getAdditionalGodownData());
+			obj.getTenderData().forEach(i -> {
+				i.setContractor(obj);
+			});
+			obj.getGstData().forEach(i -> {
+				i.setContractor(obj);
+			});
+			obj.getChargesData().forEach(i -> {
+				i.setContractor(obj);
+			});
+			obj.getAdditionalGodownData().forEach(i -> {
+				i.setContractor(obj);
+			});
+			contractorInfoRepo.save(obj);
 
 			return new ResponseEntity<String>("Updated Successfully", HttpStatus.ACCEPTED);
 		} catch (Exception e) {

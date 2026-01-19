@@ -24,8 +24,8 @@ public class SupplierInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column
-	private List<String> empId;
+//	@Column
+//	private List<String> empId;
 	
 	private String contact1;
 	

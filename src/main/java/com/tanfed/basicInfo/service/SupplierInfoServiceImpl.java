@@ -26,7 +26,7 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 	public ResponseEntity<String> saveSupplierInfo(SupplierInfo obj, String jwt) throws Exception {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
-			obj.setEmpId(Arrays.asList(empId));
+//			obj.setEmpId(Arrays.asList(empId));
 
 			SupplierInfo supplierInfoBySupplierName = supplierRepo.findBySupplierName(obj.getSupplierName());
 			if (supplierInfoBySupplierName != null) {
@@ -79,7 +79,7 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 			SupplierInfo supplierInfo = supplierRepo.findById(obj.getId()).get();
-			supplierInfo.getEmpId().add(empId);
+//			supplierInfo.getEmpId().add(empId);
 			supplierInfo.setContact1(obj.getContact1());
 			supplierInfo.setContact2(obj.getContact2());
 			supplierInfo.setEmail(obj.getEmail());

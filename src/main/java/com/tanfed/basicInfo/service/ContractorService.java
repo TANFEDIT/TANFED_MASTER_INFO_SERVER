@@ -25,7 +25,7 @@ public interface ContractorService {
 	
 	public List<ContractorInfo> getContarctorInfoByOfficeName(String officeName) throws Exception;
 	
-	public ResponseEntity<String> editContractorInfo(ContractorDto obj, String jwt) throws Exception;
+	public ResponseEntity<String> editContractorInfo(ContractorInfo obj, String jwt) throws Exception;
 	
 	public List<String> getContractFirmByOfficeName(String officeName) throws Exception;
 
