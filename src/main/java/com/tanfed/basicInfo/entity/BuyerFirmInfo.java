@@ -23,7 +23,7 @@ public class BuyerFirmInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-//	private List<String> empId;
+	private List<String> empId;
 	
 	private String officeName;
 	

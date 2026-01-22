@@ -25,8 +25,8 @@ public class LicenseData {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-//	@Column
-//	private List<String> empId;
+	@Column
+	private List<String> empId;
 	
 	@Column
 	private String officeName;
