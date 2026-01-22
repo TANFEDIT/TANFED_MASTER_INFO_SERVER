@@ -484,7 +484,7 @@ public class ContractorServiceImpl implements ContractorService {
 				if (!type.isEmpty() && type.equals("buffer")) {
 					officeName = toRegion;
 					mapBufferData(data, officeName, godownName, byOfficeNameAndGodownName.stream()
-					.filter(item -> item.getType().equals(type)).collect(Collectors.toList()));
+							.filter(item -> item.getType().equals(type)).collect(Collectors.toList()));
 				}
 				if (!type.isEmpty() && type.equals("district")) {
 					officeName = toRegion;
@@ -646,39 +646,62 @@ public class ContractorServiceImpl implements ContractorService {
 
 				List<DistanceMapping> filteredList = byOfficeName.stream()
 						.filter(item -> item.getGodownName().equals(godownName)).collect(Collectors.toList());
-
+				List<String> zero_seven_list = new ArrayList<String>();
+				List<String> eight_twenty_list = new ArrayList<String>();
+				List<String> twentyone_fifty_list = new ArrayList<String>();
+				List<String> fiftyone_seventyfive_list = new ArrayList<String>();
+				List<String> seventysix_hundred_list = new ArrayList<String>();
+				List<String> hundredone_onetwentyfive_list = new ArrayList<String>();
+				List<String> onetwosix_onefifty_list = new ArrayList<String>();
+				List<String> onefiftyone_oneseventyfive_list = new ArrayList<String>();
+				List<String> oneseventysix_twohundred_list = new ArrayList<String>();
+				List<String> abovetwohundredone_list = new ArrayList<String>();
 				for (DistanceMapping temp : filteredList) {
 					for (DistanceMapTableData item : temp.getTableData()) {
 						double km = item.getKm();
-						if (km > 0 && km < 8)
+						if (km > 0 && km < 8) {
 							zero_seven++;
-						else if (km < 21)
+							zero_seven_list.add(item.getName());
+						} else if (km < 21) {
 							eight_twenty++;
-						else if (km < 51)
+							eight_twenty_list.add(item.getName());
+						} else if (km < 51) {
 							twentyone_fifty++;
-						else if (km < 76)
+							twentyone_fifty_list.add(item.getName());
+						} else if (km < 76) {
 							fiftyone_seventyfive++;
-						else if (km < 101)
+							fiftyone_seventyfive_list.add(item.getName());
+						} else if (km < 101) {
 							seventysix_hundred++;
-						else if (km < 126)
+							seventysix_hundred_list.add(item.getName());
+						} else if (km < 126) {
 							hundredone_onetwentyfive++;
-						else if (km < 151)
+							hundredone_onetwentyfive_list.add(item.getName());
+						} else if (km < 151) {
 							onetwosix_onefifty++;
-						else if (km < 176)
+							onetwosix_onefifty_list.add(item.getName());
+						} else if (km < 176) {
 							onefiftyone_oneseventyfive++;
-						else if (km < 201)
+							onefiftyone_oneseventyfive_list.add(item.getName());
+						} else if (km < 201) {
 							oneseventysix_twohundred++;
-						else
+							oneseventysix_twohundred_list.add(item.getName());
+						} else {
 							abovetwohundredone++;
+							abovetwohundredone_list.add(item.getName());
+						}
 					}
 				}
 
 				// Add only if data exists
 				if (!filteredList.isEmpty()) {
-					tableData.add(new DistanceMappingAbstractTable(godownName, zero_seven, eight_twenty,
-							twentyone_fifty, fiftyone_seventyfive, seventysix_hundred, hundredone_onetwentyfive,
-							onetwosix_onefifty, onefiftyone_oneseventyfive, oneseventysix_twohundred,
-							abovetwohundredone));
+					tableData.add(new DistanceMappingAbstractTable(godownName, zero_seven, zero_seven_list,
+							eight_twenty, eight_twenty_list, twentyone_fifty, twentyone_fifty_list,
+							fiftyone_seventyfive, fiftyone_seventyfive_list, seventysix_hundred,
+							seventysix_hundred_list, hundredone_onetwentyfive, hundredone_onetwentyfive_list,
+							onetwosix_onefifty, onetwosix_onefifty_list, onefiftyone_oneseventyfive,
+							onefiftyone_oneseventyfive_list, oneseventysix_twohundred, oneseventysix_twohundred_list,
+							abovetwohundredone, abovetwohundredone_list));
 				}
 			}
 
