@@ -256,6 +256,13 @@ public class BasicInfoController {
 			throws Exception {
 		return bankInfoService.saveBankInfo(obj, jwt);
 	}
+	
+	@PostMapping("/saveallbank")
+	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN','ROLE_ACCADMIN', 'ROLE_ROADMIN')")
+	public ResponseEntity<String> saveAllBankInfo(@RequestBody List<BankInfo> obj, @RequestHeader("Authorization") String jwt)
+			throws Exception {
+		return bankInfoService.saveAllBankInfo(obj, jwt);
+	}
 
 	@GetMapping("/fetchbanklist")
 	public List<BankInfo> getBankInfoByOfficeNameHandler(@RequestParam String officeName) throws Exception {

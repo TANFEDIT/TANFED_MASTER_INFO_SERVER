@@ -36,6 +36,20 @@ public class BankInfoServiceImpl implements BankInfoService {
 			throw new Exception(e);
 		}
 	}
+	
+	@Override
+	public ResponseEntity<String> saveAllBankInfo(List<BankInfo> obj, String jwt) throws Exception {
+		try {
+			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
+			obj.forEach(i->{
+			i.setEmpId(Arrays.asList(empId));
+			});
+			bankRepo.saveAll(obj);				
+			return new ResponseEntity<>("Created successfully", HttpStatus.CREATED);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
 
 	@Override
 	public List<BankInfo> getBankInfoByOfficeName(String officeName) throws Exception {

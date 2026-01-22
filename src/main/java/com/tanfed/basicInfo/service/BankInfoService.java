@@ -10,6 +10,8 @@ import com.tanfed.basicInfo.response.DataForOB;
 public interface BankInfoService {
 
 	public ResponseEntity<String> saveBankInfo(BankInfo obj, String jwt) throws Exception;
+
+	public ResponseEntity<String> saveAllBankInfo(List<BankInfo> obj, String jwt) throws Exception;
 		
 	public List<BankInfo> getBankInfoByOfficeName(String officeName) throws Exception;
 	 
