@@ -25,11 +25,20 @@ public class AccountsMasterServiceImpl implements AccountsMasterService {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 			obj.forEach(item -> item.setEmpId(Arrays.asList(empId)));
+
 			accountsMasterRepo.saveAll(obj);
 			return new ResponseEntity<String>("Created successfully", HttpStatus.CREATED);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
+	}
+
+	@Override
+	public String validateSubHead(String subHead, String mainHead) throws Exception {
+		List<AccountsMaster> collect = accountsMasterRepo.findBySubHead(subHead).stream()
+				.filter(i -> i.getMainHead().equals(mainHead)).collect(Collectors.toList());
+
+		return !collect.isEmpty() ? "subHead Already Present" : "";
 	}
 
 	@Override

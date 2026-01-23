@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import com.tanfed.basicInfo.config.JwtTokenValidator;
 import com.tanfed.basicInfo.controller.DataController;
+import com.tanfed.basicInfo.dto.RateUpdateDto;
 import com.tanfed.basicInfo.entity.*;
 import com.tanfed.basicInfo.model.*;
 import com.tanfed.basicInfo.repository.*;
@@ -271,11 +272,19 @@ public class ContractorServiceImpl implements ContractorService {
 	}
 
 	@Override
-	public ResponseEntity<String> saveRateUpdate(ContractorChargesData obj, Long id) throws Exception {
+	public ResponseEntity<String> saveRateUpdate(RateUpdateDto obj, Long id) throws Exception {
 		try {
 			ContractorInfo contractorInfo = contractorInfoRepo.findById(id).get();
-			obj.setUpdateDate(LocalDate.now());
-			contractorInfo.getChargesData().add(obj);
+			ContractorTenderData tenderData = new ContractorTenderData(null, "Rate Update", obj.getHoIrRcno(), null,
+					obj.getRateFrom(), obj.getRateTo(), obj.getHoLetterDate(), contractorInfo);
+			contractorInfo.getTenderData().add(tenderData);
+			ContractorChargesData chargesdata = new ContractorChargesData(null, obj.getRateFrom(), obj.getRateTo(),
+					obj.getUpdateDate(), obj.getWagonClearance(), obj.getLoadingCharges(), obj.getUnloadingCharges(),
+					obj.getHillRate(), obj.getZero_seven(), obj.getEight_twenty(), obj.getTwentyone_fifty(),
+					obj.getFiftyone_seventyfive(), obj.getSeventysix_hundred(), obj.getHundredone_onetwentyfive(),
+					obj.getOnetwosix_onefifty(), obj.getOnefiftyone_oneseventyfive(), obj.getOneseventysix_twohundred(),
+					obj.getAbovetwohundredone(), contractorInfo);
+			contractorInfo.getChargesData().add(chargesdata);
 			contractorInfoRepo.save(contractorInfo);
 			return new ResponseEntity<String>("Rate Updated Successfully", HttpStatus.ACCEPTED);
 		} catch (Exception e) {

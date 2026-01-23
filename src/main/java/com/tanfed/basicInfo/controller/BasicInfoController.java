@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tanfed.basicInfo.dto.RateUpdateDto;
 import com.tanfed.basicInfo.entity.*;
 import com.tanfed.basicInfo.model.*;
 import com.tanfed.basicInfo.repository.DistanceMappingRepo;
@@ -449,7 +450,7 @@ public class BasicInfoController {
 
 	@PutMapping("/rateupdate/{id}")
 	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_FERTADMIN')")
-	public ResponseEntity<String> saveRateUpdateHandler(@PathVariable Long id, @RequestBody ContractorChargesData obj)
+	public ResponseEntity<String> saveRateUpdateHandler(@PathVariable Long id, @RequestBody RateUpdateDto obj)
 			throws Exception {
 		return contractorService.saveRateUpdate(obj, id);
 	}

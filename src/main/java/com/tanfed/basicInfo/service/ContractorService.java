@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.tanfed.basicInfo.entity.ContractorChargesData;
+import com.tanfed.basicInfo.dto.RateUpdateDto;
 import com.tanfed.basicInfo.entity.ContractorInfo;
 import com.tanfed.basicInfo.entity.DistanceMapping;
 import com.tanfed.basicInfo.model.ContractorDto;
@@ -37,7 +37,7 @@ public interface ContractorService {
 	
 	public DataForRateUpdate getDataForRateUpdate(String officeName, String contractFirm) throws Exception;
 
-	public ResponseEntity<String> saveRateUpdate(ContractorChargesData obj, Long id) throws Exception;
+	public ResponseEntity<String> saveRateUpdate(RateUpdateDto obj, Long id) throws Exception;
 
 	public DataForEmdRefund getDataForEmdRefund(String officeName, String contractFirm) throws Exception;
 	

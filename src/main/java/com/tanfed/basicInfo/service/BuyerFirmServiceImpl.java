@@ -104,7 +104,7 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 						bankInfoByOfficeName.stream().map(BankInfo::getBankName).collect(Collectors.toSet()));
 				if (bankName != null && !bankName.isEmpty()) {
 					data.setBranchNameList(bankInfoByOfficeName.stream().filter(
-							item -> item.getBankName().equals(bankName) && item.getAccountType().equals("Non PDS A/c"))
+							item -> item.getBankName().equals(bankName) && item.getAccountType().equals("Non PDS A/c Fert"))
 							.map(BankInfo::getBranchName).collect(Collectors.toSet()));
 				}
 			}
