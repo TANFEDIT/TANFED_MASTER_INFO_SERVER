@@ -26,7 +26,7 @@ public class BankInfoServiceImpl implements BankInfoService {
 	public ResponseEntity<String> saveBankInfo(BankInfo obj, String jwt) throws Exception {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
-//			obj.setEmpId(Arrays.asList(empId));
+			obj.setEmpId(Arrays.asList(empId));
 			if (getBankInfoByAccountNo(obj.getAccountNumber()) != null) {
 				throw new FileAlreadyExistsException("Bank Info Already Exists for Acc No" + obj.getAccountNumber());
 			}
@@ -70,7 +70,7 @@ public class BankInfoServiceImpl implements BankInfoService {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 			BankInfo bankInfo = bankRepo.findById(obj.getId()).get();
-//			bankInfo.getEmpId().add(empId);
+			bankInfo.getEmpId().add(empId);
 			bankInfo.setDoor(obj.getDoor());
 			bankInfo.setStreet(obj.getStreet());
 			bankInfo.setDistrict(obj.getDistrict());

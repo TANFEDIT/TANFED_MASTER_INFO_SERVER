@@ -2,6 +2,9 @@ package com.tanfed.basicInfo.entity;
 
 import java.util.List;
 
+import com.tanfed.basicInfo.utils.ListConverter;
+
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -60,6 +63,7 @@ public class BankInfo {
 	
 	private String cif;
 	
+	@Convert(converter = ListConverter.class)
 	private List<String> empId;
 
 }

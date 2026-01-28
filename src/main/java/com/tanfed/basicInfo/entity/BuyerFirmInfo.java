@@ -3,6 +3,9 @@ package com.tanfed.basicInfo.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.tanfed.basicInfo.utils.ListConverter;
+
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +26,7 @@ public class BuyerFirmInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Convert(converter = ListConverter.class)
 	private List<String> empId;
 	
 	private String officeName;
@@ -43,6 +47,7 @@ public class BuyerFirmInfo {
 	
 	private String buyerGstNo;
 	
+	@Convert(converter = ListConverter.class)
 	private List<String> businessWithTanfed;
 	
 	

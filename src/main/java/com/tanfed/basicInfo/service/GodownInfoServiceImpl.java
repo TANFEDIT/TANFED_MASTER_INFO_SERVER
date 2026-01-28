@@ -33,7 +33,7 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 	public ResponseEntity<String> saveGodownInfo(GodownInfo obj, String jwt) throws Exception {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
-//			obj.setEmpId(Arrays.asList(empId));
+			obj.setEmpId(Arrays.asList(empId));
 			String officeCode = userService.getOfficeList().stream().filter(item -> {
 				return item.getOfficeName().equals(obj.getOfficeName());
 			}).map(Office::getOfficeCode).collect(Collectors.toList()).get(0);
@@ -82,7 +82,7 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 			godownInfo.setValidityTo(obj.getValidityTo());
 			godownInfo.setTotalCapacity(obj.getTotalCapacity());
 			godownInfo.setNumberOfGodowns(obj.getNumberOfGodowns());
-//			godownInfo.setCapacities(obj.getCapacities());
+			godownInfo.setCapacities(obj.getCapacities());
 			godownInfo.setKeeperName(obj.getKeeperName());
 			godownInfo.setContactNo1(obj.getContactNo1());
 			godownInfo.setContactNo2(obj.getContactNo2());
@@ -91,7 +91,7 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 			godownInfo.setInsuranceDate(obj.getInsuranceDate());
 			godownInfo.setInsuranceFrom(obj.getInsuranceFrom());
 			godownInfo.setInsuranceTo(obj.getInsuranceTo());
-//			godownInfo.getEmpId().add(empId);
+			godownInfo.getEmpId().add(empId);
 			godownRepo.save(godownInfo);
 
 			return new ResponseEntity<>("Updated Successfully", HttpStatus.ACCEPTED);

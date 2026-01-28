@@ -3,7 +3,10 @@ package com.tanfed.basicInfo.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.tanfed.basicInfo.utils.ListConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -86,7 +89,7 @@ public class GodownInfo {
 	@Column
 	private Long numberOfGodowns;
 
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> capacities;
 
 	@Column
@@ -113,7 +116,7 @@ public class GodownInfo {
 	@Column
 	private LocalDate validityTo;
 	
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> empId;
 	
 

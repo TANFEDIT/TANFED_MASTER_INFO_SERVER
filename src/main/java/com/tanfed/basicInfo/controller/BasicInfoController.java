@@ -340,39 +340,6 @@ public class BasicInfoController {
 		return buyerFirmService.getDataForBillsReceivablesOb(firmType, nameOfInstitution, officeName);
 	}
 
-	/* Department */
-	@Autowired
-	private DepartmentService departmentService;
-
-	@PostMapping("/savedept")
-	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_ROADMIN')")
-	public ResponseEntity<String> saveDepartmentInfoHandler(@RequestBody DepartmentInfo obj,
-			@RequestHeader("Authorization") String jwt) throws Exception {
-		return departmentService.saveDepartmentInfo(obj, jwt);
-	}
-
-	@PutMapping("/editdept")
-	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_ROADMIN')")
-	public ResponseEntity<String> editDepartmentInfoHandler(@RequestBody DepartmentInfo obj,
-			@RequestHeader("Authorization") String jwt) throws Exception {
-		return departmentService.editDepartmentInfo(obj, jwt);
-	}
-
-	@GetMapping("/fetchdeptdata")
-	public DepartmentInfo getDaprtmentInfoByDeptNameHandler(@RequestParam String name) throws Exception {
-		return departmentService.getDaprtmentInfoByDeptName(name);
-	}
-
-	@GetMapping("/fetchdeptlist")
-	public List<DepartmentInfo> getDaprtmentInfoByOfficeNameHandler(@RequestParam String officeName) throws Exception {
-		return departmentService.getDaprtmentInfoByOfficeName(officeName);
-	}
-
-	@GetMapping("fetchdeptname")
-	public List<String> getDepartmentNameByOfficeName(@RequestParam String officeName) throws Exception {
-		return departmentService.getDepartmentNameByOfficeName(officeName);
-	}
-
 	// Contractor info
 	@Autowired
 	private ContractorService contractorService;
@@ -384,7 +351,7 @@ public class BasicInfoController {
 		return contractorService.saveContractorInfo(obj, jwt);
 	}
 
-	@PostMapping("/editcontractorinfo")
+	@PutMapping("/editcontractorinfo")
 	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_FERTADMIN')")
 	public ResponseEntity<String> editContractorInfoHandler(@RequestBody ContractorInfo obj,
 			@RequestHeader("Authorization") String jwt) throws Exception {

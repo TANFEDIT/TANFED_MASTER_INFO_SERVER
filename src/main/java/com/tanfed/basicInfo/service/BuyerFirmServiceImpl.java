@@ -35,7 +35,7 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 	public ResponseEntity<String> saveBuyerFirmInfo(BuyerFirmInfo obj, String jwt) throws Exception {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
-//			obj.setEmpId(Arrays.asList(empId));
+			obj.setEmpId(Arrays.asList(empId));
 			buyerFirmRepo.save(obj);
 			return new ResponseEntity<>("BuyerInfo Created", HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -121,7 +121,7 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 
 			BuyerFirmInfo buyerFirmInfo = buyerFirmRepo.findById(obj.getId()).get();
-//			buyerFirmInfo.getEmpId().add(empId);
+			buyerFirmInfo.getEmpId().add(empId);
 
 			buyerFirmInfo.setBusinessWithTanfed(obj.getBusinessWithTanfed());
 			buyerFirmInfo.setBankName(obj.getBankName());

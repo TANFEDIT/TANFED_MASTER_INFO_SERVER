@@ -3,7 +3,9 @@ package com.tanfed.basicInfo.entity;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
+import com.tanfed.basicInfo.utils.ListConverter;
+
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,8 +26,8 @@ public class SupplierInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-//	@Column
-//	private List<String> empId;
+	@Convert(converter = ListConverter.class)
+	private List<String> empId;
 	
 	private String contact1;
 	

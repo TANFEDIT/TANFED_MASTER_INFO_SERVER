@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.tanfed.basicInfo.model.ReassignedGodown;
+import com.tanfed.basicInfo.utils.ListConverter;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class ContractorInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> empId;
 	
 	
@@ -83,7 +84,7 @@ public class ContractorInfo {
 	@Column
 	private String gstReturnType;
 	
-	@Column
+	@Convert(converter = ListConverter.class)
 	private List<String> godownName;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "contractor")
