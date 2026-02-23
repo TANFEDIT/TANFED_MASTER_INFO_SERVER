@@ -52,6 +52,7 @@ public class SupplierInfo {
 	private String supplierTin;
 	
 	private String supplierGst;
+	private String supplierState;
 	
 	private String relationship;
 	

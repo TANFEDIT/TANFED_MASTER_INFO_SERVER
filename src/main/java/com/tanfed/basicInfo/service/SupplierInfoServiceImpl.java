@@ -54,20 +54,9 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 	}
 
 	@Override
-	public List<SupplierInfo> getSupplierInfo(String activity) throws Exception {
+	public List<SupplierInfo> getSupplierInfo() throws Exception {
 		try {
-			List<SupplierInfo> supplierInfobyOfficeName;
-			if (activity.isEmpty()) {
-				supplierInfobyOfficeName = supplierRepo.findAll();
-			} else {
-				supplierInfobyOfficeName = supplierRepo.findAll().stream()
-						.filter(temp -> temp.getSupplierOf().contains(activity)).collect(Collectors.toList());
-			}
-
-			if (supplierInfobyOfficeName == null) {
-				throw new FileNotFoundException("No data found");
-			}
-			return supplierInfobyOfficeName;
+			return supplierRepo.findAll();
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -99,9 +88,9 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 			List<SupplierInfo> supplierInfobyOfficeName = supplierRepo.findAll();
 
 			// if (supplierInfobyOfficeName == null) {
-			// 	throw new FileNotFoundException("No data found");
+			// throw new FileNotFoundException("No data found");
 			// }
-			return supplierInfobyOfficeName.stream().filter(item -> item.getSupplierOf().contains(activity))
+			return supplierInfobyOfficeName.stream().filter(item -> item.getSupplierOf().contains(activity) && item.getRelationship().equals("Business"))
 					.map(SupplierInfo::getSupplierName).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -125,6 +114,16 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 			return data;
 		} catch (Exception e) {
 			throw new Exception(e);
+		}
+	}
+
+	@Override
+	public List<SupplierInfo> getSupplierInfo(String activity) {
+		if (activity.isEmpty()) {
+			return supplierRepo.findAll();
+		} else {
+			return supplierRepo.findAll().stream().filter(i -> i.getSupplierOf().contains(activity))
+					.collect(Collectors.toList());
 		}
 	}
 

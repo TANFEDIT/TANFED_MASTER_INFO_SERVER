@@ -54,11 +54,12 @@ public class AccountsController {
 	}
 
 	@GetMapping("/fetchacchead")
-	public AccountsHead getSubHeadByMainHeadHandler(@RequestParam String mainHead) throws Exception {
+	public AccountsHead getSubHeadByMainHeadHandler(@RequestParam String mainHead,
+			@RequestHeader("Authorization") String jwt) throws Exception {
 		AccountsHead data = new AccountsHead();
 		data.setMainHeadList(new HashSet<String>(accountsMasterService.getMainHead()));
 		if (!mainHead.isEmpty() && mainHead != null) {
-			data.setSubHeadList(accountsMasterService.getSubHeadByMainHead(mainHead));
+			data.setSubHeadList(accountsMasterService.getSubHeadByMainHead(mainHead, jwt));
 		}
 		return data;
 	}
@@ -131,14 +132,14 @@ public class AccountsController {
 	}
 
 	@GetMapping("/fetchbeneficiarymasterlist")
-	public List<BeneficiaryMaster> getBeneficiaryListByOfficeName(@RequestParam String officeName) throws Exception {
-		return beneficiaryMasterService.getBeneficiaryListByOfficeName(officeName);
+	public List<BeneficiaryMaster> getBeneficiaryListByOfficeName() throws Exception {
+		return beneficiaryMasterService.getBeneficiaryListByOfficeName();
 	}
 
-	@GetMapping("/fetchbeneficiaryname")
-	public List<String> getBeneficiaryNameListByOfficeName(@RequestParam String officeName) throws Exception {
-		return beneficiaryMasterService.getBeneficiaryNameListByOfficeName(officeName);
-	}
+//	@GetMapping("/fetchbeneficiaryname")
+//	public List<String> getBeneficiaryNameListByOfficeName(@RequestParam String officeName) throws Exception {
+//		return beneficiaryMasterService.getBeneficiaryNameListByOfficeName(officeName);
+//	}
 
 	@GetMapping("/fetchdataforbeneficiarymaster")
 	public List<String> fetchDataForBeneficiaryMasterHandler(@RequestParam String officeName) throws Exception {

@@ -1,5 +1,6 @@
 package com.tanfed.basicInfo.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tanfed.basicInfo.config.JwtTokenValidator;
+import com.tanfed.basicInfo.dto.LicenseDataDto;
+import com.tanfed.basicInfo.entity.GodownInfo;
 import com.tanfed.basicInfo.entity.LicenseData;
 import com.tanfed.basicInfo.repository.LicenseRepo;
 
@@ -25,43 +28,36 @@ public class LicenseServiceImpl implements LicenseService {
 	private LicenseRepo licenseRepo;
 
 	@Autowired
+	private GodownInfoService godownInfoService;
+
+	@Autowired
 	ObjectMapper mapper;
 
 	@Override
-	public ResponseEntity<String> saveLicense(String obj, MultipartFile[] files, String jwt) throws Exception {
+	public ResponseEntity<String> saveLicense(String obj, MultipartFile files, String jwt) throws Exception {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 
 			logger.info("licenseData {}", obj);
-			List<LicenseData> licenseList = mapper.readValue(obj,
-					mapper.getTypeFactory().constructCollectionType(List.class, LicenseData.class));
-
-			if (licenseList.size() == files.length) {
-
-				for (int i = 0; i < licenseList.size(); i++) {
-
-					logger.info("licenseData {}", licenseList);
-					LicenseData licenseData = licenseList.get(i);
-					MultipartFile multipartFile = files[i];
-//					set filedata in entity class
-					licenseData.setEmpId(Arrays.asList(empId));
-					licenseData.setFilename(multipartFile.getOriginalFilename());
-					licenseData.setFiletype(multipartFile.getContentType());
-					licenseData.setFiledata(multipartFile.getBytes());
-
-//					save data obj in database
-					licenseRepo.save(licenseData);
+			LicenseDataDto licenseDto = mapper.readValue(obj, LicenseDataDto.class);
+			List<GodownInfo> godownList = new ArrayList<GodownInfo>();
+			if (licenseDto.getGodownName() != null) {
+				for(var i : licenseDto.getGodownName()) {
+					godownList.add(godownInfoService.getGodownInfoByGodownName(i));					
 				}
+
 			}
 
-//			return response
+			LicenseData license = new LicenseData(null, Arrays.asList(empId), licenseDto.getOfficeName(),
+					files.getOriginalFilename(), files.getContentType(), files.getBytes(), licenseDto.getLicenseType(),
+					licenseDto.getLicenseFor(), licenseDto.getLicenseNumber(), licenseDto.getValidFrom(),
+					licenseDto.getValidTo());
+
+			licenseRepo.save(license);
+
 			return new ResponseEntity<String>("License added", HttpStatus.CREATED);
 		} catch (Exception e) {
-
-//			log error in console
 			logger.error("Error : ", e);
-
-//			return error response
 			throw new Exception(e);
 		}
 	}

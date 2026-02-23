@@ -1,6 +1,5 @@
 package com.tanfed.basicInfo.service;
 
-import java.io.FileNotFoundException;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Arrays;
 import java.util.List;
@@ -36,15 +35,15 @@ public class BankInfoServiceImpl implements BankInfoService {
 			throw new Exception(e);
 		}
 	}
-	
+
 	@Override
 	public ResponseEntity<String> saveAllBankInfo(List<BankInfo> obj, String jwt) throws Exception {
 		try {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
-			obj.forEach(i->{
-			i.setEmpId(Arrays.asList(empId));
+			obj.forEach(i -> {
+				i.setEmpId(Arrays.asList(empId));
 			});
-			bankRepo.saveAll(obj);				
+			bankRepo.saveAll(obj);
 			return new ResponseEntity<>("Created successfully", HttpStatus.CREATED);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -52,14 +51,9 @@ public class BankInfoServiceImpl implements BankInfoService {
 	}
 
 	@Override
-	public List<BankInfo> getBankInfoByOfficeName(String officeName) throws Exception {
+	public List<BankInfo> getBankInfoByOfficeName() throws Exception {
 		try {
-			List<BankInfo> byOfficeName = bankRepo.findByOfficeName(officeName);
-			if (byOfficeName == null) {
-				throw new FileNotFoundException("No Bank Info found for office name" + officeName);
-			}
-			return byOfficeName;
-
+			return bankRepo.findAll();
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -94,7 +88,8 @@ public class BankInfoServiceImpl implements BankInfoService {
 		try {
 			DataForOB data = new DataForOB();
 			if (!officeName.isEmpty() && officeName != null) {
-				List<BankInfo> bankInfoByOfficeName = getBankInfoByOfficeName(officeName);
+				List<BankInfo> bankInfoByOfficeName = getBankInfoByOfficeName().stream()
+						.filter(i -> i.getOfficeName().equals(officeName)).collect(Collectors.toList());
 				data.setBankList(bankInfoByOfficeName.stream().map(BankInfo::getBankName).collect(Collectors.toSet()));
 				if (!bankName.isEmpty() && bankName != null) {
 					data.setAccTypeList(
@@ -130,6 +125,11 @@ public class BankInfoServiceImpl implements BankInfoService {
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
+	}
+
+	@Override
+	public List<BankInfo> getBankInfoByOfficeName(String officeName) {
+		return bankRepo.findByOfficeName(officeName);
 	}
 
 }

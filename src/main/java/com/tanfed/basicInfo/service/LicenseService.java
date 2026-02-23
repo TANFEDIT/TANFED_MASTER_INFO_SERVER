@@ -9,7 +9,7 @@ import com.tanfed.basicInfo.entity.LicenseData;
 
 public interface LicenseService {
 
-	public ResponseEntity<String> saveLicense(String obj, MultipartFile[] files, String jwt) throws Exception;
+	public ResponseEntity<String> saveLicense(String obj, MultipartFile files, String jwt) throws Exception;
 	
 	public List<LicenseData> getLicenseByOfficeName(String officeName) throws Exception;
 	

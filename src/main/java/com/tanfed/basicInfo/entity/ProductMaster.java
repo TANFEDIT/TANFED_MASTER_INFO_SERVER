@@ -82,6 +82,7 @@ public class ProductMaster {
 	
 	@Column
 	private String gstCategory;
+	private String caseContains;
 	
 	@Column
 	private Double gstRate;

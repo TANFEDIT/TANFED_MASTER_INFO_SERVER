@@ -1,10 +1,15 @@
 package com.tanfed.basicInfo.entity;
 
-import jakarta.persistence.Column;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,18 +20,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table
-public class DistrictTalukTable {
+public class GodownInsuranceData {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column
-	private String district;
+	private String hoLetterRcNo;
 	
-	@Column
-	private String taluk;
+	private LocalDate insuranceDate;
+
+	private LocalDate insuranceFrom;
+
+	private LocalDate insuranceTo;
 	
-	@Column
-	private String ifmsId;
+	@ManyToOne
+	@JoinColumn(name = "godown_id")
+	@JsonIgnore
+	private GodownInfo godown;
+	
+	
+	
 }

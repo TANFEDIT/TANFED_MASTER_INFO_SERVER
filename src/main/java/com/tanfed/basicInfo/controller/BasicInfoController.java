@@ -14,6 +14,7 @@ import com.tanfed.basicInfo.repository.TaxInfoRepo;
 import com.tanfed.basicInfo.response.*;
 import com.tanfed.basicInfo.service.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -105,22 +106,21 @@ public class BasicInfoController {
 			OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
 			TaxInfo taxInfo = taxInfoRepo.findById(1L).orElse(null);
 
+			String tan = officeInfo != null ? officeInfo.getTanNo() : null;
 			String officeType = officeInfo != null ? officeInfo.getOfficeType() : null;
 			String door = officeInfo != null ? officeInfo.getDoor() : null;
 			String street = officeInfo != null ? officeInfo.getStreet() : null;
 			String district = officeInfo != null ? officeInfo.getDistrict() : null;
 			Integer pincode = officeInfo != null ? officeInfo.getPincode() : null;
 			String gstNo = taxInfo != null ? taxInfo.getGstNo() : null;
-			String tanNo = taxInfo != null ? taxInfo.getTanNo() : null;
-			
-			return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(), user.getOfficeName(), officeType,
-					door, street, district, pincode, gstNo, tanNo, user.getImgName(), user.getImgType(), user.getImgData()
-			);
+
+			return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(), tan,
+					user.getOfficeName(), officeType, door, street, district, pincode, gstNo, user.getImgName(),
+					user.getImgType(), user.getImgData());
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
 	}
-
 
 	@GetMapping("/fetchdataforofficeform")
 	public DataForOfficeForm getDataForOfficeFormHandler(@RequestParam String officeType) throws Exception {
@@ -132,7 +132,7 @@ public class BasicInfoController {
 
 	@PostMapping(value = "/saveLicense", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN', 'ROLE_MARKADMIN', 'ROLE_FERTADMIN', 'ROLE_SPAIADMIN', 'ROLE_ROADMIN')")
-	public ResponseEntity<String> saveLicenseHandler(@RequestPart String obj, @RequestParam MultipartFile[] files,
+	public ResponseEntity<String> saveLicenseHandler(@RequestPart String obj, @RequestParam MultipartFile files,
 			@RequestHeader("Authorization") String jwt) throws Exception {
 		logger.info(obj);
 		return licenseService.saveLicense(obj, files, jwt);
@@ -180,7 +180,12 @@ public class BasicInfoController {
 	}
 
 	@GetMapping("/fetchsupplierdatalist")
-	public List<SupplierInfo> getSupplierInfoHandler(String activity) throws Exception {
+	public List<SupplierInfo> getSupplierInfoHandler() throws Exception {
+		return supplierInfoService.getSupplierInfo();
+	}
+
+	@GetMapping("/fetchsupplierdatabyactivity")
+	public List<SupplierInfo> getSupplierInfoByActivityHandler(@RequestParam String activity) throws Exception {
 		return supplierInfoService.getSupplierInfo(activity);
 	}
 
@@ -242,9 +247,9 @@ public class BasicInfoController {
 	}
 
 	@GetMapping("/fetchdataforgodown")
-	public DataForGodownInfo getDataForGodownInfoHandler(@RequestParam String officeName, String district, String block,
-			String licenseNo) throws Exception {
-		return godownInfoService.getDataForGodownInfo(officeName, district, block, licenseNo);
+	public DataForGodownInfo getDataForGodownInfoHandler(@RequestParam String officeName, String district, String block)
+			throws Exception {
+		return godownInfoService.getDataForGodownInfo(officeName, district, block);
 	}
 
 	/* Bank */
@@ -257,15 +262,20 @@ public class BasicInfoController {
 			throws Exception {
 		return bankInfoService.saveBankInfo(obj, jwt);
 	}
-	
+
 	@PostMapping("/saveallbank")
 	@PreAuthorize("hasAnyRole('ROLE_SUPERADMIN','ROLE_ACCADMIN', 'ROLE_ROADMIN')")
-	public ResponseEntity<String> saveAllBankInfo(@RequestBody List<BankInfo> obj, @RequestHeader("Authorization") String jwt)
-			throws Exception {
+	public ResponseEntity<String> saveAllBankInfo(@RequestBody List<BankInfo> obj,
+			@RequestHeader("Authorization") String jwt) throws Exception {
 		return bankInfoService.saveAllBankInfo(obj, jwt);
 	}
 
 	@GetMapping("/fetchbanklist")
+	public List<BankInfo> getBankInfoByOfficeNameHandler() throws Exception {
+		return bankInfoService.getBankInfoByOfficeName();
+	}
+
+	@GetMapping("/fetchbankdata")
 	public List<BankInfo> getBankInfoByOfficeNameHandler(@RequestParam String officeName) throws Exception {
 		return bankInfoService.getBankInfoByOfficeName(officeName);
 	}
@@ -330,8 +340,8 @@ public class BasicInfoController {
 	}
 
 	@GetMapping("/fetchBuyerbyoffice")
-	public List<BuyerFirmInfo> getBuyerDataByOfficeNameHandler(@RequestParam String officeName) throws Exception {
-		return buyerFirmService.getBuyerInfoByOfficeName(officeName);
+	public List<BuyerFirmInfo> getBuyerDataByOfficeNameHandler() throws Exception {
+		return buyerFirmService.getBuyerInfoByOfficeName();
 	}
 
 	@GetMapping("/fetchbuyerdataforbills")
@@ -452,6 +462,18 @@ public class BasicInfoController {
 	public ResponseEntity<String> saveStatusHandler(@PathVariable Long id, @PathVariable String status)
 			throws Exception {
 		return contractorService.saveContractorStatus(id, status);
+	}
+
+	@PutMapping("/saveagreementdoc/{id}")
+	public ResponseEntity<String> saveAgreementDocHandler(@PathVariable Long id, @RequestBody MultipartFile doc)
+			throws IOException {
+		return contractorService.saveAgreementDoc(id, doc);
+	}
+
+	@PutMapping("/saveratedoc/{id}")
+	public ResponseEntity<String> saveRateDocHandler(@PathVariable Long id, @RequestBody MultipartFile doc)
+			throws IOException {
+		return contractorService.saveRateDoc(id, doc);
 	}
 
 	@GetMapping("/fetchcontractorinfo")

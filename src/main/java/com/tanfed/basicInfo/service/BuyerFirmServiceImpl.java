@@ -99,12 +99,14 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 			if (officeName != null && !officeName.isEmpty()) {
 				DistrictData districtData = dataController.getDistrictData(district, block, officeName);
 				data.setDistrictData(districtData);
-				List<BankInfo> bankInfoByOfficeName = bankInfoService.getBankInfoByOfficeName(officeName);
+				List<BankInfo> bankInfoByOfficeName = bankInfoService.getBankInfoByOfficeName().stream()
+						.filter(i -> i.getOfficeName().equals(officeName)).collect(Collectors.toList());
 				data.setBankNameList(
 						bankInfoByOfficeName.stream().map(BankInfo::getBankName).collect(Collectors.toSet()));
 				if (bankName != null && !bankName.isEmpty()) {
-					data.setBranchNameList(bankInfoByOfficeName.stream().filter(
-							item -> item.getBankName().equals(bankName) && item.getAccountType().equals("Non PDS A/c Fert"))
+					data.setBranchNameList(bankInfoByOfficeName.stream()
+							.filter(item -> item.getBankName().equals(bankName)
+									&& item.getAccountType().equals("Non PDS A/c Fert"))
 							.map(BankInfo::getBranchName).collect(Collectors.toSet()));
 				}
 			}
@@ -160,25 +162,25 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 	}
 
 	@Override
-	public List<BuyerFirmInfo> getBuyerInfoByOfficeName(String officeName) throws Exception {
+	public List<BuyerFirmInfo> getBuyerInfoByOfficeName() throws Exception {
 		try {
-			return buyerFirmRepo.findByOfficeName(officeName);
+			return buyerFirmRepo.findAll();
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
 	}
 
 	@Override
-	public DataForBillsReceivablesOb getDataForBillsReceivablesOb(String firmType, String nameOfInstitution, String officeName)
-			throws Exception {
+	public DataForBillsReceivablesOb getDataForBillsReceivablesOb(String firmType, String nameOfInstitution,
+			String officeName) throws Exception {
 		try {
 			DataForBillsReceivablesOb data = new DataForBillsReceivablesOb();
 			if (officeName != null && !officeName.isEmpty()) {
 				if (firmType != null && !firmType.isEmpty()) {
 					logger.info(officeName);
-					data.setBuyerNameList(getBuyerInfoByOfficeName(officeName).stream()
-							.filter(item -> item.getFirmType().equals(firmType)).map(BuyerFirmInfo::getNameOfInstitution)
-							.collect(Collectors.toList()));
+					data.setBuyerNameList(getBuyerInfoByOfficeName().stream().filter(
+							item -> item.getFirmType().equals(firmType) && item.getOfficeName().equals(officeName))
+							.map(BuyerFirmInfo::getNameOfInstitution).collect(Collectors.toList()));
 					if (nameOfInstitution != null && !nameOfInstitution.isEmpty()) {
 						BuyerFirmInfo buyerFirmInfo = getBuyerFirmByFirmName(nameOfInstitution);
 						data.setIfmsId(buyerFirmInfo.getIfmsIdNo());

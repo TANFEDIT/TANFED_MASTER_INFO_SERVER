@@ -58,4 +58,5 @@ public class LicenseData {
 	
 	@Column
 	private LocalDate validTo;
+
 }

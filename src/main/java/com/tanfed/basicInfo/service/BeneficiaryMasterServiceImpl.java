@@ -1,6 +1,7 @@
 package com.tanfed.basicInfo.service;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,9 @@ public class BeneficiaryMasterServiceImpl implements BeneficiaryMasterService {
 	@Autowired
 	private BeneficiaryMasterRepo beneficiaryMasterRepo;
 
+	@Autowired
+	private AccountsService accountsService;
+
 	@Override
 	public ResponseEntity<String> saveBeneficiaryMaster(List<BeneficiaryMaster> obj, String jwt) throws Exception {
 		try {
@@ -28,7 +32,7 @@ public class BeneficiaryMasterServiceImpl implements BeneficiaryMasterService {
 			obj.forEach(item -> item.setEmpId(Arrays.asList(empId)));
 
 			beneficiaryMasterRepo.saveAll(obj);
-
+			accountsService.restartService();
 			return new ResponseEntity<String>("Created Successfully", HttpStatus.CREATED);
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -53,28 +57,32 @@ public class BeneficiaryMasterServiceImpl implements BeneficiaryMasterService {
 	@Autowired
 	private SupplierInfoService supplierInfoService;
 
+	@Autowired
+	private ContractorService contractorService;
+
 	@Override
 	public List<String> fetchDataForBeneficiaryMaster(String officeName) throws Exception {
 		try {
-			if (officeName != null && !officeName.isEmpty() && officeName.equals("Head Office")) {
-				return supplierInfoService.getSupplierInfo("").stream().map(item -> item.getSupplierName())
-						.collect(Collectors.toList());
+			List<String> beneficiaries = new ArrayList<String>();
+			if (officeName != null && !officeName.isEmpty()) {
+				if (officeName.equals("Head Office")) {
+//					beneficiaries.addAll(contractorService.getContractFirmByOfficeName(officeName));
+					beneficiaries.addAll(supplierInfoService.getSupplierInfo().stream()
+							.map(item -> item.getSupplierName()).collect(Collectors.toList()));
+				}
 			} else {
 				return null;
 			}
+			return beneficiaries;
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
 	}
 
 	@Override
-	public List<BeneficiaryMaster> getBeneficiaryListByOfficeName(String officeName) throws Exception {
+	public List<BeneficiaryMaster> getBeneficiaryListByOfficeName() throws Exception {
 		try {
-			List<BeneficiaryMaster> byOfficeName = beneficiaryMasterRepo.findByOfficeName(officeName);
-			if (byOfficeName == null) {
-				throw new FileNotFoundException("No data found");
-			}
-			return byOfficeName;
+			return beneficiaryMasterRepo.findAll();
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -104,14 +112,14 @@ public class BeneficiaryMasterServiceImpl implements BeneficiaryMasterService {
 		}
 	}
 
-	@Override
-	public List<String> getBeneficiaryNameListByOfficeName(String officeName) throws Exception {
-		try {
-			return getBeneficiaryListByOfficeName(officeName).stream().map(BeneficiaryMaster::getBeneficiaryName)
-					.collect(Collectors.toList());
-		} catch (Exception e) {
-			throw new Exception(e);
-		}
-	}
+//	@Override
+//	public List<String> getBeneficiaryNameListByOfficeName(String officeName) throws Exception {
+//		try {
+//			return getBeneficiaryListByOfficeName(officeName).stream().map(BeneficiaryMaster::getBeneficiaryName)
+//					.collect(Collectors.toList());
+//		} catch (Exception e) {
+//			throw new Exception(e);
+//		}
+//	}
 
 }

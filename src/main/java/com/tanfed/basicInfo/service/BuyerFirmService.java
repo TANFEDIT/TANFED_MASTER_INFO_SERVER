@@ -21,7 +21,7 @@ public interface BuyerFirmService {
 	
 	public List<String> getBuyerNameByOfficeName(String officeName) throws Exception;
 	
-	public List<BuyerFirmInfo> getBuyerInfoByOfficeName(String officeName) throws Exception;
+	public List<BuyerFirmInfo> getBuyerInfoByOfficeName() throws Exception;
 
 	public DataForBuyerFirm getDataForBuyerFirm(String officeName, String block, String district, String bankName)
 			throws Exception;

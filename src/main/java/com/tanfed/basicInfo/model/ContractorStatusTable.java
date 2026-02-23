@@ -27,4 +27,10 @@ public class ContractorStatusTable {
 	private Long dataId;
 	private List<String> godownList;
 	private List<String> additionalGodownList;
+	private String filenameAgreement;
+	private String filetypeAgreement;
+	private byte[] filedataAgreement;
+	private String filenameRate;
+	private String filetypeRate;
+	private byte[] filedataRate;
 }

@@ -12,11 +12,11 @@ public interface BeneficiaryMasterService {
 	
 	public List<BeneficiaryMaster> getBeneficiaryMasterByName(String beneficiaryName, String officeName) throws Exception;
 	
-	public List<BeneficiaryMaster> getBeneficiaryListByOfficeName(String officeName) throws Exception;
+	public List<BeneficiaryMaster> getBeneficiaryListByOfficeName() throws Exception;
 	
 	public ResponseEntity<String> editBeneficiaryMaster(BeneficiaryMaster obj, String jwt) throws Exception;
 	
-	public List<String> getBeneficiaryNameListByOfficeName(String officeName) throws Exception;
+//	public List<String> getBeneficiaryNameListByOfficeName(String officeName) throws Exception;
 
 	public List<String> fetchDataForBeneficiaryMaster(String officeName) throws Exception;
 }

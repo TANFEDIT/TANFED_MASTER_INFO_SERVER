@@ -18,6 +18,7 @@ public class OfficeHeader {
 	private String designation;
 	
 	
+	private String tanNo;
 	private String officeName;
 	private String officeType;
 	private String door;
@@ -25,7 +26,6 @@ public class OfficeHeader {
 	private String district;
 	private Integer pincode;
 	private String gst;
-	private String tan;
 	private String imgName;
 	private String imgType;
 	private byte[] imgData;

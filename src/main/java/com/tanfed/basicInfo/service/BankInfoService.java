@@ -13,11 +13,13 @@ public interface BankInfoService {
 
 	public ResponseEntity<String> saveAllBankInfo(List<BankInfo> obj, String jwt) throws Exception;
 		
-	public List<BankInfo> getBankInfoByOfficeName(String officeName) throws Exception;
+	public List<BankInfo> getBankInfoByOfficeName() throws Exception;
 	 
 	public ResponseEntity<String> editBankInfo(BankInfo obj, String jwt) throws Exception;
 	
 	public DataForOB getDataForOBForm(String officeName, String bankName, String branchName, String accountType) throws Exception;
 	
 	public BankInfo getBankInfoByAccountNo(Long accountNumber) throws Exception;
+
+	public List<BankInfo> getBankInfoByOfficeName(String officeName);
 }

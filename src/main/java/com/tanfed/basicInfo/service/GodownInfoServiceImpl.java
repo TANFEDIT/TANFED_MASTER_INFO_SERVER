@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.tanfed.basicInfo.config.JwtTokenValidator;
 import com.tanfed.basicInfo.controller.DataController;
 import com.tanfed.basicInfo.entity.GodownInfo;
-import com.tanfed.basicInfo.entity.LicenseData;
 import com.tanfed.basicInfo.model.Office;
 import com.tanfed.basicInfo.repository.GodownRepo;
 import com.tanfed.basicInfo.response.DataForGodownInfo;
@@ -38,6 +37,9 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 				return item.getOfficeName().equals(obj.getOfficeName());
 			}).map(Office::getOfficeCode).collect(Collectors.toList()).get(0);
 			obj.setOfficeCode(officeCode);
+			obj.getInsurance().forEach(i -> {
+				i.setGodown(obj);
+			});
 			godownRepo.save(obj);
 			return new ResponseEntity<>("Godown Info Created", HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -77,9 +79,6 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 			GodownInfo godownInfo = godownRepo.findById(obj.getId()).get();
 
-			godownInfo.setLicenseNo(obj.getLicenseNo());
-			godownInfo.setValidityFrom(obj.getValidityFrom());
-			godownInfo.setValidityTo(obj.getValidityTo());
 			godownInfo.setTotalCapacity(obj.getTotalCapacity());
 			godownInfo.setNumberOfGodowns(obj.getNumberOfGodowns());
 			godownInfo.setCapacities(obj.getCapacities());
@@ -87,10 +86,6 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 			godownInfo.setContactNo1(obj.getContactNo1());
 			godownInfo.setContactNo2(obj.getContactNo2());
 			godownInfo.setGkDesignation(obj.getGkDesignation());
-			godownInfo.setHoLetterRcNo(obj.getHoLetterRcNo());
-			godownInfo.setInsuranceDate(obj.getInsuranceDate());
-			godownInfo.setInsuranceFrom(obj.getInsuranceFrom());
-			godownInfo.setInsuranceTo(obj.getInsuranceTo());
 			godownInfo.getEmpId().add(empId);
 			godownRepo.save(godownInfo);
 
@@ -123,8 +118,7 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 	private static Logger logger = LoggerFactory.getLogger(GodownInfoServiceImpl.class);
 
 	@Override
-	public DataForGodownInfo getDataForGodownInfo(String officeName, String district, String block,
-			String licenseNumber) throws Exception {
+	public DataForGodownInfo getDataForGodownInfo(String officeName, String district, String block) throws Exception {
 		try {
 			logger.info(officeName);
 			DataForGodownInfo data = new DataForGodownInfo();
@@ -132,11 +126,6 @@ public class GodownInfoServiceImpl implements GodownInfoService {
 
 			data.setLicenseNoList(licenseService.getLicenseByOfficeName(officeName).stream()
 					.map(item -> item.getLicenseNumber()).collect(Collectors.toList()));
-			if (!licenseNumber.isEmpty() && licenseNumber != null) {
-				LicenseData licenseData = licenseService.getLicenseDataByLicenseNumber(licenseNumber);
-				data.setFromDate(licenseData.getValidFrom());
-				data.setToDate(licenseData.getValidTo());
-			}
 
 			return data;
 		} catch (Exception e) {

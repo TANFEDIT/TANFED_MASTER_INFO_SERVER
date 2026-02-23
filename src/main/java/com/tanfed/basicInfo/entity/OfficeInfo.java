@@ -73,6 +73,7 @@ public class OfficeInfo {
 
 	@Column
 	private String unitOfficeType;
+	private String tanNo;
 
 	@Convert(converter = ListConverter.class)
 	private List<String> productionUnit;

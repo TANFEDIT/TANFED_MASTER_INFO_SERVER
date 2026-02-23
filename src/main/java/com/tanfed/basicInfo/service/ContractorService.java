@@ -3,6 +3,7 @@ package com.tanfed.basicInfo.service;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tanfed.basicInfo.dto.RateUpdateDto;
 import com.tanfed.basicInfo.entity.ContractorInfo;
@@ -56,4 +57,8 @@ public interface ContractorService {
 //	public ResponseEntity<String> saveExistingDistanceMapData(DistanceMapping obj) throws Exception;
 
 	public List<DistanceMappingAbstractTable> getDistanceMappingAbstractTableData(String region) throws Exception;
+
+	public ResponseEntity<String> saveAgreementDoc(Long id, MultipartFile doc);
+
+	public ResponseEntity<String> saveRateDoc(Long id, MultipartFile doc);
 }

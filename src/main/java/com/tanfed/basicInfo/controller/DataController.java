@@ -1,10 +1,8 @@
 package com.tanfed.basicInfo.controller;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,15 +78,6 @@ public class DataController {
 			} else {
 				response.setDistrictList(officeInfoService.getOfficeInfoByOfficeName(officeName).getDistrictList());
 			}
-
-			if (StringUtils.hasText(district)) {
-				response.setTalukList(getTalukListByDistrictHandler(district));
-				response.setBlockList(getBlockListByDistrict(district));
-
-				if (StringUtils.hasText(block)) {
-					response.setVillageList(getVillageByBlock(block));
-				}
-			}
 			return response;
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -96,26 +85,8 @@ public class DataController {
 	}
 
 	@GetMapping("/fetchdistrict")
-	public Set<String> getDistrictListHandler() throws Exception {
+	public List<String> getDistrictListHandler() throws Exception {
 		return districtService.getDistrictList();
-	}
-
-	@GetMapping("/fetchtaluk")
-	public List<String> getTalukListByDistrictHandler(@RequestParam String district) throws Exception {
-
-		List<String> talukListByDistrict = districtService.getTalukListByDistrict(district);
-		talukListByDistrict.addAll(districtService.getIfmsIdByDistrict(district));
-		return talukListByDistrict;
-	}
-
-	@GetMapping("/fetchblock")
-	public Set<String> getBlockListByDistrict(@RequestParam String district) throws Exception {
-		return districtService.getBlockListByDistrict(district);
-	}
-
-	@GetMapping("/fetchvillage")
-	public List<String> getVillageByBlock(@RequestParam String block) throws Exception {
-		return districtService.getVillageByBlock(block);
 	}
 
 	@Autowired

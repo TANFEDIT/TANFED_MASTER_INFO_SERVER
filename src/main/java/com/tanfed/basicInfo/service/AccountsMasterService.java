@@ -16,7 +16,7 @@ public interface AccountsMasterService {
 	
 	public List<String> getMainHead() throws Exception;
 	
-	public List<String> getSubHeadByMainHead(String mainHead) throws Exception;
+	public List<String> getSubHeadByMainHead(String mainHead, String jwt) throws Exception;
 
 	public String validateSubHead(String subHead, String mainHead) throws Exception;
 	

@@ -21,6 +21,5 @@ public interface GodownInfoService {
 	
 	public List<String> getGodownNameByOfficeName(String officeName) throws Exception;
 	
-	public DataForGodownInfo getDataForGodownInfo(String officeName, String district, String block, 
-			String licenseNo) throws Exception;
+	public DataForGodownInfo getDataForGodownInfo(String officeName, String district, String block) throws Exception;
 }

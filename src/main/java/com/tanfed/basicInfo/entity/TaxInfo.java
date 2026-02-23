@@ -37,9 +37,6 @@ public class TaxInfo {
 	@Column(nullable = false)
 	private String tinNo;
 	
-	@Column(nullable = false)
-	private String TanNo;
-	
 	@Column
 	private String gstCategory;
 	

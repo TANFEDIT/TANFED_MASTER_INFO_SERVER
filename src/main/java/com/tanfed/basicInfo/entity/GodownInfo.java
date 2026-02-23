@@ -1,16 +1,19 @@
 package com.tanfed.basicInfo.entity;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.tanfed.basicInfo.utils.ListConverter;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,13 +32,10 @@ public class GodownInfo {
 
 	@Column
 	private String officeName;
-	
+
 	@Column
 	private String officeCode;
-	
-	
-	
-	
+
 	@Column
 	private String district;
 
@@ -47,9 +47,6 @@ public class GodownInfo {
 
 	@Column
 	private String village;
-	
-	
-	
 
 	@Column
 	private String ifmsId;
@@ -60,9 +57,6 @@ public class GodownInfo {
 	@Column
 	private String godownName;
 
-	
-	
-	
 	@Column
 	private String door;
 
@@ -71,17 +65,6 @@ public class GodownInfo {
 
 	@Column
 	private Integer pincode;
-
-	
-	
-	@Column
-	private String licenseNo;
-
-	@Column
-	private LocalDate insuranceFrom;
-
-	@Column
-	private LocalDate insuranceTo;
 
 	@Column
 	private String totalCapacity;
@@ -104,20 +87,13 @@ public class GodownInfo {
 	@Column
 	private String gkDesignation;
 
-	@Column
-	private String hoLetterRcNo;
-
-	@Column
-	private LocalDate insuranceDate;
-
-	@Column
-	private LocalDate validityFrom;
-
-	@Column
-	private LocalDate validityTo;
-	
 	@Convert(converter = ListConverter.class)
 	private List<String> empId;
-	
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<LicenseData> license;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "godown")
+	private List<GodownInsuranceData> insurance;
 
 }

@@ -50,7 +50,6 @@ public class TaxInfoServiceImpl implements TaxInfoService {
 			TaxInfo taxInfo = taxInfoRepo.findById(obj.getId()).get();
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 			taxInfo.getEmpId().add(empId);
-			taxInfo.setTanNo(obj.getTanNo());
 			taxInfo.setGstNo(obj.getGstNo());
 			taxInfo.setPanNo(obj.getPanNo());
 			taxInfo.setTinNo(obj.getTinNo());

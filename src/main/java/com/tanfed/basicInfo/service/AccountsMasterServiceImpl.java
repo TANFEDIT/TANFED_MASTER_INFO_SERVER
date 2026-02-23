@@ -57,7 +57,6 @@ public class AccountsMasterServiceImpl implements AccountsMasterService {
 			String empId = JwtTokenValidator.getEmailFromJwtToken(jwt);
 			accountsMaster.getEmpId().add(empId);
 			accountsMaster.setAssociatedWith(obj.getAssociatedWith());
-			accountsMaster.setAccGroup(obj.getAccGroup());
 			accountsMaster.setMainHead(obj.getMainHead());
 			accountsMaster.setSubHead(obj.getSubHead());
 
@@ -82,7 +81,7 @@ public class AccountsMasterServiceImpl implements AccountsMasterService {
 	}
 
 	@Override
-	public List<String> getSubHeadByMainHead(String mainHead) throws Exception {
+	public List<String> getSubHeadByMainHead(String mainHead, String jwt) throws Exception {
 		try {
 			List<AccountsMaster> accountsMasterList = accountsMasterList();
 			if (accountsMasterList == null) {

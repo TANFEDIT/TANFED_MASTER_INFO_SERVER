@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tanfed.basicInfo.config.JwtTokenValidator;
 import com.tanfed.basicInfo.controller.DataController;
@@ -158,8 +159,8 @@ public class ContractorServiceImpl implements ContractorService {
 	public List<String> getContractFirmByOfficeName(String officeName) throws Exception {
 		try {
 
-			return getContarctorInfoByOfficeName(officeName).stream()
-					.filter(item -> item.getEmdAmount() != null && item.getDate() == null)
+			return getContarctorInfoByOfficeName(officeName).stream().filter(
+					item -> item.getEmdAmount() != null && item.getDate() == null && item.getStatus().equals("Active"))
 					.map(ContractorInfo::getContractFirm).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -360,7 +361,6 @@ public class ContractorServiceImpl implements ContractorService {
 						List<LocalDate> validityToList = new ArrayList<>();
 						List<String> hoIrRcnoList = new ArrayList<>();
 						List<LocalDate> hoLetterDateList = new ArrayList<>();
-
 						item.getTenderData().forEach(tender -> {
 							validityFromList.add(tender.getValidityFrom());
 							validityToList.add(tender.getValidityTo());
@@ -374,7 +374,13 @@ public class ContractorServiceImpl implements ContractorService {
 								item.getEmdReceivedOn(), item.getDate(), item.getContractFirm(), item.getGstNo(),
 								validityFromList, validityToList, hoIrRcnoList, hoLetterDateList,
 								item.getTenderData().get(item.getTenderData().size() - 1).getContractApproval(),
-								item.getStatus(), item.getId(), item.getGodownName(), additionalGodownList));
+								item.getStatus(), item.getId(), item.getGodownName(), additionalGodownList,
+								item.getFilenameAgreement() == null ? null : item.getFilenameAgreement(),
+								item.getFilenameAgreement() == null ? null : item.getFiletypeAgreement(),
+								item.getFilenameAgreement() == null ? null : item.getFiledataAgreement(),
+								item.getFilenameRate() == null ? null : item.getFilenameRate(),
+								item.getFilenameRate() == null ? null : item.getFiletypeRate(),
+								item.getFilenameRate() == null ? null : item.getFiledataRate()));
 					});
 				}
 				data.setTableData(tableData);
@@ -566,9 +572,10 @@ public class ContractorServiceImpl implements ContractorService {
 		data.setDistrictList(officeInfoService.getOfficeInfoByOfficeName(officeName).getDistrictList());
 
 		if (!district.isEmpty() && district != null) {
-			List<DistanceMapTableData> buyerData = buyerFirmService.getBuyerInfoByOfficeName(officeName).stream()
-					.filter(item -> item.getDistrict().equals(district)).map(item -> new DistanceMapTableData(null,
-							item.getIfmsIdNo(), item.getNameOfInstitution(), null, null, null, null))
+			List<DistanceMapTableData> buyerData = buyerFirmService.getBuyerInfoByOfficeName().stream()
+					.filter(item -> item.getOfficeName().equals(officeName) && item.getDistrict().equals(district))
+					.map(item -> new DistanceMapTableData(null, item.getIfmsIdNo(), item.getNameOfInstitution(), null,
+							null, null, null))
 					.collect(Collectors.toList());
 
 			if (!byOfficeNameAndGodownName.isEmpty()) {
@@ -719,6 +726,34 @@ public class ContractorServiceImpl implements ContractorService {
 			throw new RuntimeException("Error processing distance mapping data", e);
 		}
 
+	}
+
+	@Override
+	public ResponseEntity<String> saveAgreementDoc(Long id, MultipartFile doc) {
+		try {
+			ContractorInfo contractorInfo = contractorInfoRepo.findById(id).get();
+			contractorInfo.setFilenameAgreement(doc.getOriginalFilename());
+			contractorInfo.setFiletypeAgreement(doc.getContentType());
+			contractorInfo.setFiledataAgreement(doc.getBytes());
+			contractorInfoRepo.save(contractorInfo);
+			return new ResponseEntity<String>("Updated Successfully", HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			throw new RuntimeException("Error processing data", e);
+		}
+	}
+
+	@Override
+	public ResponseEntity<String> saveRateDoc(Long id, MultipartFile doc) {
+		try {
+			ContractorInfo contractorInfo = contractorInfoRepo.findById(id).get();
+			contractorInfo.setFilenameRate(doc.getOriginalFilename());
+			contractorInfo.setFiletypeRate(doc.getContentType());
+			contractorInfo.setFiledataRate(doc.getBytes());
+			contractorInfoRepo.save(contractorInfo);
+			return new ResponseEntity<String>("Updated Successfully", HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			throw new RuntimeException("Error processing data", e);
+		}
 	}
 
 //	@Override
