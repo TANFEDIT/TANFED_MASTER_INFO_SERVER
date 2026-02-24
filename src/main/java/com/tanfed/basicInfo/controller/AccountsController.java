@@ -48,18 +48,18 @@ public class AccountsController {
 		return accountsMasterService.accountsMasterList();
 	}
 
-	@GetMapping("/fetchmainhead")
-	public List<String> getMainHeadHandler() throws Exception {
-		return accountsMasterService.getMainHead();
-	}
+//	@GetMapping("/fetchmainhead")
+//	public List<String> getMainHeadHandler() throws Exception {
+//		return accountsMasterService.getMainHead();
+//	}
 
 	@GetMapping("/fetchacchead")
-	public AccountsHead getSubHeadByMainHeadHandler(@RequestParam String mainHead,
+	public AccountsHead getSubHeadByMainHeadHandler(@RequestParam String mainHead,@RequestParam String officeType,
 			@RequestHeader("Authorization") String jwt) throws Exception {
 		AccountsHead data = new AccountsHead();
-		data.setMainHeadList(new HashSet<String>(accountsMasterService.getMainHead()));
+		data.setMainHeadList(new HashSet<String>(accountsMasterService.getMainHead(officeType)));
 		if (!mainHead.isEmpty() && mainHead != null) {
-			data.setSubHeadList(accountsMasterService.getSubHeadByMainHead(mainHead, jwt));
+			data.setSubHeadList(accountsMasterService.getSubHeadByMainHead(mainHead, jwt, officeType));
 		}
 		return data;
 	}

@@ -90,7 +90,8 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 			// if (supplierInfobyOfficeName == null) {
 			// throw new FileNotFoundException("No data found");
 			// }
-			return supplierInfobyOfficeName.stream().filter(item -> item.getSupplierOf().contains(activity) && item.getRelationship().equals("Business"))
+			return supplierInfobyOfficeName.stream().filter(item -> item.getSupplierOf().contains(activity)
+					&& (item.getRelationship().equals("For Business") || item.getRelationship().equals("Both")))
 					.map(SupplierInfo::getSupplierName).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new Exception(e);

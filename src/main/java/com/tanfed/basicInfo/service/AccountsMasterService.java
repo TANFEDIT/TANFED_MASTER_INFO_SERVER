@@ -14,9 +14,9 @@ public interface AccountsMasterService {
 	
 	public ResponseEntity<String> editAccountsMaster(AccountsMaster obj, String jwt) throws Exception;
 	
-	public List<String> getMainHead() throws Exception;
+	public List<String> getMainHead(String officeType) throws Exception;
 	
-	public List<String> getSubHeadByMainHead(String mainHead, String jwt) throws Exception;
+	public List<String> getSubHeadByMainHead(String mainHead, String jwt, String officeType) throws Exception;
 
 	public String validateSubHead(String subHead, String mainHead) throws Exception;
 	

@@ -437,6 +437,10 @@ public class ContractorServiceImpl implements ContractorService {
 	public ResponseEntity<String> saveContractorStatus(Long id, String status) throws Exception {
 		try {
 			ContractorInfo contractorInfo = contractorInfoRepo.findById(id).get();
+			if (contractorInfo.getDate() != null) {
+				return new ResponseEntity<String>("Cannot Activate Refunded Contractor!",
+						HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 			contractorInfo.setStatus(status);
 			contractorInfoRepo.save(contractorInfo);
 			return new ResponseEntity<String>("Status Updated Successfully", HttpStatus.ACCEPTED);

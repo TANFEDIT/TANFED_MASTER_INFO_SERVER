@@ -68,26 +68,29 @@ public class AccountsMasterServiceImpl implements AccountsMasterService {
 	}
 
 	@Override
-	public List<String> getMainHead() throws Exception {
+	public List<String> getMainHead(String officeType) throws Exception {
 		try {
 			List<AccountsMaster> accountsMasterList = accountsMasterList();
 			if (accountsMasterList == null) {
 				throw new FileNotFoundException("No data found");
 			}
-			return accountsMasterList.stream().map(AccountsMaster::getMainHead).collect(Collectors.toList());
+			return accountsMasterList.stream()
+					.filter(i -> i.getAssociatedWith().equals(officeType) || i.getAssociatedWith().equals("All"))
+					.map(AccountsMaster::getMainHead).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
 	}
 
 	@Override
-	public List<String> getSubHeadByMainHead(String mainHead, String jwt) throws Exception {
+	public List<String> getSubHeadByMainHead(String mainHead, String jwt, String officeType) throws Exception {
 		try {
 			List<AccountsMaster> accountsMasterList = accountsMasterList();
 			if (accountsMasterList == null) {
 				throw new FileNotFoundException("No data found");
 			}
 			return accountsMasterList.stream().filter(item -> item.getMainHead().equals(mainHead))
+					.filter(i -> i.getAssociatedWith().equals(officeType) || i.getAssociatedWith().equals("All"))
 					.map(AccountsMaster::getSubHead).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new Exception(e);
