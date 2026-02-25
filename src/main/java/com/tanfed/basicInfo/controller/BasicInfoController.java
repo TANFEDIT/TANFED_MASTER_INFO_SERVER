@@ -341,7 +341,12 @@ public class BasicInfoController {
 
 	@GetMapping("/fetchBuyerbyoffice")
 	public List<BuyerFirmInfo> getBuyerDataByOfficeNameHandler() throws Exception {
-		return buyerFirmService.getBuyerInfoByOfficeName();
+		return buyerFirmService.getBuyerInfo();
+	}
+	
+	@GetMapping("/fetchBuyerdatabyoffice")
+	public List<BuyerFirmInfo> getBuyerFirmDataByOfficeNameHandler(@RequestParam String officeName) throws Exception {
+		return buyerFirmService.getBuyerInfoByOfficeName(officeName);
 	}
 
 	@GetMapping("/fetchbuyerdataforbills")

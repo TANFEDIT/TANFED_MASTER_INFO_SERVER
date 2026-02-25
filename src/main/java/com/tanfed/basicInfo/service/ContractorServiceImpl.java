@@ -576,10 +576,9 @@ public class ContractorServiceImpl implements ContractorService {
 		data.setDistrictList(officeInfoService.getOfficeInfoByOfficeName(officeName).getDistrictList());
 
 		if (!district.isEmpty() && district != null) {
-			List<DistanceMapTableData> buyerData = buyerFirmService.getBuyerInfoByOfficeName().stream()
-					.filter(item -> item.getOfficeName().equals(officeName) && item.getDistrict().equals(district))
-					.map(item -> new DistanceMapTableData(null, item.getIfmsIdNo(), item.getNameOfInstitution(), null,
-							null, null, null))
+			List<DistanceMapTableData> buyerData = buyerFirmService.getBuyerInfoByOfficeName(officeName).stream()
+					.filter(item -> item.getDistrict().equals(district)).map(item -> new DistanceMapTableData(null,
+							item.getIfmsIdNo(), item.getNameOfInstitution(), null, null, null, null))
 					.collect(Collectors.toList());
 
 			if (!byOfficeNameAndGodownName.isEmpty()) {

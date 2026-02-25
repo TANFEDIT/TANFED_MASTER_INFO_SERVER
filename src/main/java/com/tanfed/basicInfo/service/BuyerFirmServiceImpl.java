@@ -162,9 +162,18 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 	}
 
 	@Override
-	public List<BuyerFirmInfo> getBuyerInfoByOfficeName() throws Exception {
+	public List<BuyerFirmInfo> getBuyerInfo() throws Exception {
 		try {
 			return buyerFirmRepo.findAll();
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
+	
+	@Override
+	public List<BuyerFirmInfo> getBuyerInfoByOfficeName(String officeName) throws Exception {
+		try {
+			return buyerFirmRepo.findByOfficeName(officeName);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -178,11 +187,13 @@ public class BuyerFirmServiceImpl implements BuyerFirmService {
 			if (officeName != null && !officeName.isEmpty()) {
 				if (firmType != null && !firmType.isEmpty()) {
 					logger.info(officeName);
-					data.setBuyerNameList(getBuyerInfoByOfficeName().stream().filter(
-							item -> item.getFirmType().equals(firmType) && item.getOfficeName().equals(officeName))
-							.map(BuyerFirmInfo::getNameOfInstitution).collect(Collectors.toList()));
+					data.setBuyerNameList(buyerFirmRepo.findByOfficeName(officeName).stream()
+							.filter(i -> i.getFirmType().equals(firmType)).map(BuyerFirmInfo::getNameOfInstitution)
+							.collect(Collectors.toList()));
 					if (nameOfInstitution != null && !nameOfInstitution.isEmpty()) {
-						BuyerFirmInfo buyerFirmInfo = getBuyerFirmByFirmName(nameOfInstitution);
+						BuyerFirmInfo buyerFirmInfo = buyerFirmRepo.findByOfficeName(officeName).stream()
+								.filter(i -> i.getNameOfInstitution().equals(nameOfInstitution))
+								.reduce((first, second) -> second).orElse(null);
 						data.setIfmsId(buyerFirmInfo.getIfmsIdNo());
 						data.setAddress(buyerFirmInfo.getAddress());
 						data.setDistrict(buyerFirmInfo.getDistrict());
