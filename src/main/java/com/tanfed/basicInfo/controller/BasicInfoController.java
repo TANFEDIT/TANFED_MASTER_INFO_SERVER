@@ -103,20 +103,9 @@ public class BasicInfoController {
 			if (user == null) {
 				return null;
 			}
-			OfficeInfo officeInfo = getOfficeInfoByOfficeNameHandler(user.getOfficeName());
 			TaxInfo taxInfo = taxInfoRepo.findById(1L).orElse(null);
-
-			String tan = officeInfo != null ? officeInfo.getTanNo() : null;
-			String officeType = officeInfo != null ? officeInfo.getOfficeType() : null;
-			String door = officeInfo != null ? officeInfo.getDoor() : null;
-			String street = officeInfo != null ? officeInfo.getStreet() : null;
-			String district = officeInfo != null ? officeInfo.getDistrict() : null;
-			Integer pincode = officeInfo != null ? officeInfo.getPincode() : null;
 			String gstNo = taxInfo != null ? taxInfo.getGstNo() : null;
-
-			return new OfficeHeader(user.getEmpId(), user.getRole(), user.getEmpName(), user.getDesignation(), tan,
-					user.getOfficeName(), officeType, door, street, district, pincode, gstNo, user.getImgName(),
-					user.getImgType(), user.getImgData());
+			return new OfficeHeader(gstNo, user.getImgName(), user.getImgType(), user.getImgData());
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
@@ -343,7 +332,7 @@ public class BasicInfoController {
 	public List<BuyerFirmInfo> getBuyerDataByOfficeNameHandler() throws Exception {
 		return buyerFirmService.getBuyerInfo();
 	}
-	
+
 	@GetMapping("/fetchBuyerdatabyoffice")
 	public List<BuyerFirmInfo> getBuyerFirmDataByOfficeNameHandler(@RequestParam String officeName) throws Exception {
 		return buyerFirmService.getBuyerInfoByOfficeName(officeName);
